@@ -1,0 +1,2 @@
+windsurf and cascade with the IDE are the builders of this project. User is no coder no tech person. So decide key things and execute. ask for confirmation only if potential path has ability to break the build or divert from known best practices.
+Build an AI-IDE-friendly, modular SaaS boilerplate—VibeKit—that nails auth, billing, dashboards, prompt logging, proof artifacts, CI, env hygiene, and can be dropped into any new products that we want to build on top of this boilerplate.

@@ -1,0 +1,2 @@
+# To create the 'proofs' bucket in Supabase Storage, run:
+# supabase storage create-bucket proofs --public
