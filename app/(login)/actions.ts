@@ -104,10 +104,19 @@ const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   inviteId: z.string().optional(),
+  role: z.enum(['basic', 'premium', 'admin']).optional(),
 });
 
+import { createClient } from '@supabase/supabase-js';
+import { profiles } from '@/lib/db/profiles';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
 export const signUp = validatedAction(signUpSchema, async (data, formData) => {
-  const { email, password, inviteId } = data;
+  const { email, password, inviteId, role } = data;
 
   const existingUser = await db
     .select()
@@ -124,6 +133,31 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   }
 
   const passwordHash = await hashPassword(password);
+
+  // Store role in user_metadata and profiles table
+  const roleTier = role || 'basic';
+
+  // Create user in Supabase Auth (for magic link, etc.)
+  const { data: supaUser, error: supaError } = await supabase.auth.admin.createUser({
+    email,
+    password,
+    user_metadata: { role: roleTier },
+    email_confirm: true,
+  });
+  if (supaError) {
+    return {
+      error: 'Failed to create Supabase user: ' + supaError.message,
+      email,
+      password,
+    };
+  }
+
+  // Insert profile
+  await db.insert(profiles).values({
+    id: supaUser.user?.id || '',
+    email,
+    role: roleTier,
+  });
 
   const newUser: NewUser = {
     email,
