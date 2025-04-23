@@ -40,17 +40,16 @@ pnpm install
 stripe login
 ```
 
-Use the included setup script to create your `.env` file:
+Use the included setup script to create your `.env.local` file:
 
 ```bash
-pnpm db:setup
+pnpm db:setup  # generates .env.local from .env.example
 ```
 
 Run the database migrations and seed the database with a default user and team:
 
 ```bash
 pnpm db:migrate
-pnpm db:seed
 ```
 
 This will create the following user and team:
@@ -73,12 +72,6 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the a
 To test Stripe payments, use the following test card details:
 
 - Card Number: `4242 4242 4242 4242`
-
----
-
-## Webhook Testing
-
-See [docs/webhook.md](docs/webhook.md) for instructions on local Stripe webhook testing and setup.
 - Expiration: Any future date
 - CVC: Any 3-digit number
 
@@ -100,13 +93,15 @@ When you're ready to deploy your SaaS application to production, follow these st
 
 ### Add environment variables
 
-In your Vercel project settings (or during deployment), add all the necessary environment variables. Make sure to update the values for the production environment, including:
+In your Vercel project settings (or during deployment), add all the necessary environment variables (as defined in `.env.example`). For production, update values accordingly:
 
-1. `BASE_URL`: Set this to your production domain.
-2. `STRIPE_SECRET_KEY`: Use your Stripe secret key for the production environment.
-3. `STRIPE_WEBHOOK_SECRET`: Use the webhook secret from the production webhook you created in step 1.
-4. `POSTGRES_URL`: Set this to your production database URL.
-5. `AUTH_SECRET`: Set this to a random string. `openssl rand -base64 32` will generate one.
+1. `BASE_URL`: Your production domain.
+2. `NEXTAUTH_URL`: Your production auth callback URL.
+3. `STRIPE_PUBLIC_KEY`: Your live Stripe publishable key.
+4. `STRIPE_SECRET_KEY`: Your live Stripe secret key.
+5. `STRIPE_WEBHOOK_SECRET`: Your live Stripe webhook secret.
+6. `POSTGRES_URL`: Your production database URL.
+7. `AUTH_SECRET`: A random string, e.g. `openssl rand -base64 32`.
 
 ## Other Templates
 

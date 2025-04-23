@@ -4,7 +4,6 @@ import { users, teams, teamMembers } from '@/lib/db/schema';
 import { setSession } from '@/lib/auth/session';
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/payments/stripe';
-import Stripe from 'stripe';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -43,7 +42,7 @@ export async function GET(request: NextRequest) {
       throw new Error('No plan found for this subscription.');
     }
 
-    const productId = (plan.product as Stripe.Product).id;
+    const productId = (plan.product as any).id;
 
     if (!productId) {
       throw new Error('No product ID found for this subscription.');
@@ -82,7 +81,7 @@ export async function GET(request: NextRequest) {
         stripeCustomerId: customerId,
         stripeSubscriptionId: subscriptionId,
         stripeProductId: productId,
-        planName: (plan.product as Stripe.Product).name,
+        planName: (plan.product as any).name,
         subscriptionStatus: subscription.status,
         updatedAt: new Date(),
       })

@@ -4,7 +4,7 @@ import * as schema from './schema';
 import dotenv from 'dotenv';
 import { loadEnv } from '@/config/env';
 
-dotenv.config();
+dotenv.config({ path: '.env.local' });
 
 // Validate environment variables at startup
 loadEnv();
