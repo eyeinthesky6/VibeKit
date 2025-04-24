@@ -43,6 +43,15 @@ export const teamMembers = pgTable('team_members', {
   joinedAt: timestamp('joined_at').notNull().defaultNow(),
 });
 
+export const usage = pgTable('usage', {
+  id: serial('id').primaryKey(),
+  user_id: integer('user_id').references(() => users.id),
+  team_id: integer('team_id').references(() => teams.id),
+  action: text('action').notNull(),
+  timestamp: timestamp('timestamp').notNull().defaultNow(),
+  detail: text('detail'),
+});
+
 export const activityLogs = pgTable('activity_logs', {
   id: serial('id').primaryKey(),
   teamId: integer('team_id')

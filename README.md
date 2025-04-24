@@ -10,6 +10,7 @@ This is a starter template for building a SaaS application using **Next.js** wit
 - Role tier support: basic, premium, admin (stored in Supabase user_metadata and profiles table)
 - <IfRole> helper component for RBAC in dashboard UI
 
+- Usage analytics: `/api/usage` endpoint and `usage` table for tracking user/team activity (for dashboards, metering, and reporting)
 - Marketing landing page (`/`) with animated Terminal element
 - Pricing page (`/pricing`) which connects to Stripe Checkout
 - Dashboard pages with CRUD operations on users/teams
@@ -69,18 +70,28 @@ Use the included setup script to create your `.env.local` file:
 pnpm db:setup  # generates .env.local from .env.example
 ```
 
-Run the database migrations and seed the database with a default user and team:
+Run the database migrations and seed the database with a default user and team, along with sample usage analytics:
 
 ```bash
 pnpm db:migrate
+pnpm db:seed
 ```
 
-This will create the following user and team:
+This will create the following user and team, and populate the `usage` table:
 
 - User: `test@test.com`
 - Password: `admin123`
 
 You can also create new users through the `/sign-up` route.
+
+### Usage Analytics Endpoint
+
+- The `/api/usage` endpoint returns usage analytics for a user or team. Example:
+  ```http
+  GET /api/usage?userId=1
+  GET /api/usage?teamId=1
+  ```
+- This is used for dashboard analytics, metering, and reporting.
 
 Finally, run the Next.js development server:
 

@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "db:provision": "ts-node scripts/provision-supabase.ts",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
