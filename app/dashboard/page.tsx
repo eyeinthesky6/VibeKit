@@ -1,5 +1,4 @@
 import { redirect } from 'next/navigation';
-import { Settings } from '../dashboard/settings';
 import { getTeamForUser, getUser } from '@/lib/db/queries';
 
 export default async function DashboardPage() {
@@ -11,5 +10,10 @@ export default async function DashboardPage() {
   if (!teamData) {
     throw new Error('Team not found');
   }
-  return <Settings teamData={teamData} />;
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+      <pre className="bg-gray-100 p-4 rounded">{JSON.stringify(teamData, null, 2)}</pre>
+    </div>
+  );
 }

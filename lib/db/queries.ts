@@ -127,3 +127,12 @@ export async function getTeamForUser(userId: number) {
 
   return result?.teamMembers[0]?.team || null;
 }
+
+export async function getUserByEmail(email: string) {
+  const result = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email))
+    .limit(1);
+  return result[0] || null;
+}

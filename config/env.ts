@@ -19,6 +19,8 @@ export interface EnvConfig {
  * Load and validate environment variables
  */
 import { z } from 'zod';
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
 
 const envSchema = z.object({
   NEXT_PUBLIC_SUPABASE_URL: z.string().url(),

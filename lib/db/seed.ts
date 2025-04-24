@@ -1,6 +1,6 @@
 import { stripe } from '../payments/stripe';
 import { db } from './drizzle';
-import { users, teams, teamMembers } from './schema';
+import { users, teams, teamMembers, usage } from './schema';
 import { hashPassword } from '@/lib/auth/session';
 
 async function createStripeProducts() {
@@ -76,13 +76,10 @@ async function seed() {
   await createStripeProducts();
 
   // Insert sample usage entries
-  await db.insert({
-    table: 'usage',
-    values: [
-      { user_id: user.id, team_id: team.id, action: 'sign_in', timestamp: new Date(), detail: 'Seeded usage' },
-      { user_id: user.id, team_id: team.id, action: 'prompt', timestamp: new Date(), detail: 'Prompt usage' },
-    ],
-  });
+  await db.insert(usage).values([
+    { user_id: user.id, team_id: team.id, action: 'sign_in', timestamp: new Date(), detail: 'Seeded usage' },
+    { user_id: user.id, team_id: team.id, action: 'prompt', timestamp: new Date(), detail: 'Prompt usage' },
+  ]);
 
   // Upload demo proof to Supabase Storage (if SDK available)
   try {

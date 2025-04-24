@@ -33,4 +33,3 @@ export async function downloadProof(path: string) {
   if (error) throw error;
   return data;
 }
-
