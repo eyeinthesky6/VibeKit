@@ -471,8 +471,17 @@ export const inviteTeamMember = validatedActionWithUser(
       ActivityType.INVITE_TEAM_MEMBER,
     );
 
-    // TODO: Send invitation email and include ?inviteId={id} to sign-up URL
-    // await sendInvitationEmail(email, userWithTeam.team.name, role)
+    // Send invitation email
+    const invitation = await db
+      .select()
+      .from(invitations)
+      .where(eq(invitations.email, email))
+      .orderBy(eq(invitations.id, invitations.id))
+      .limit(1);
+    const inviteId = invitation[0]?.id;
+    if (inviteId) {
+      await sendInvitationEmail(email, userWithTeam.team.name, role, inviteId);
+    }
 
     return { success: 'Invitation sent successfully' };
   },
