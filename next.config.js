@@ -1,7 +1,6 @@
 // Load environment variables from .env.local
 import dotenv from 'dotenv';
 dotenv.config();
-import sitemap from 'next-sitemap';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

@@ -1,4 +1,4 @@
-// eslint-disable @typescript-eslint/no-unused-vars
+/* eslint-disable */
 const supabase = {
   storage: {
     from: (bucket: unknown) => ({
