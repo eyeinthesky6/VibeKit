@@ -19,7 +19,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const [showMagic, setShowMagic] = useState(false);
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     mode === 'signin' ? signIn : signUp,
-    { error: '' }
+    { error: '' },
   );
 
   return (
@@ -29,9 +29,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
           <CircleIcon className="h-12 w-12 text-orange-500" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          {mode === 'signin'
-            ? 'Sign in to your account'
-            : 'Create your account'}
+          {mode === 'signin' ? 'Sign in to your account' : 'Create your account'}
         </h2>
       </div>
 
@@ -56,10 +54,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               <input type="hidden" name="priceId" value={priceId || ''} />
               <input type="hidden" name="inviteId" value={inviteId || ''} />
               <div>
-                <Label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <Label htmlFor="email" className="block text-sm font-medium text-gray-700">
                   Email
                 </Label>
                 <div className="mt-1">
@@ -78,10 +73,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               </div>
 
               <div>
-                <Label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <Label htmlFor="password" className="block text-sm font-medium text-gray-700">
                   Password
                 </Label>
                 <div className="mt-1">
@@ -89,9 +81,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                     id="password"
                     name="password"
                     type="password"
-                    autoComplete={
-                      mode === 'signin' ? 'current-password' : 'new-password'
-                    }
+                    autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
                     defaultValue={state.password}
                     required
                     minLength={8}
@@ -102,9 +92,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                 </div>
               </div>
 
-              {state?.error && (
-                <div className="text-red-500 text-sm">{state.error}</div>
-              )}
+              {state?.error && <div className="text-red-500 text-sm">{state.error}</div>}
 
               <div>
                 <Button
@@ -145,9 +133,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="px-2 bg-gray-50 text-gray-500">
-                {mode === 'signin'
-                  ? 'New to our platform?'
-                  : 'Already have an account?'}
+                {mode === 'signin' ? 'New to our platform?' : 'Already have an account?'}
               </span>
             </div>
           </div>
@@ -159,9 +145,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               }${priceId ? `&priceId=${priceId}` : ''}`}
               className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
             >
-              {mode === 'signin'
-                ? 'Create an account'
-                : 'Sign in to existing account'}
+              {mode === 'signin' ? 'Create an account' : 'Sign in to existing account'}
             </Link>
           </div>
         </div>
@@ -169,4 +153,3 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
     </div>
   );
 }
-

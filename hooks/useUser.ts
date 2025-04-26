@@ -12,5 +12,9 @@ export interface User {
 export function useUser(): User | null {
   const { data: session } = useSession();
   if (!session?.user) return null;
-  return { id: session.user.id as number, name: session.user.name as string, email: session.user.email };
+  return {
+    id: session.user.id as number,
+    name: session.user.name as string,
+    email: session.user.email,
+  };
 }

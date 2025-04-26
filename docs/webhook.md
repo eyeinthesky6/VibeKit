@@ -1,11 +1,13 @@
 # Local Webhook Testing
 
 1. Install the Stripe CLI:
+
    ```sh
    npm install -g stripe
    ```
 
 2. Start listening and forwarding to your local webhook route:
+
    ```sh
    stripe listen --forward-to localhost:3000/api/billing/webhook
    ```

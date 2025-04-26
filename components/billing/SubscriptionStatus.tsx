@@ -15,8 +15,8 @@ export default function SubscriptionStatus() {
 
   useEffect(() => {
     fetch('/api/billing/subscription')
-      .then(res => res.json())
-      .then(data => setSubscription(data.subscription));
+      .then((res) => res.json())
+      .then((data) => setSubscription(data.subscription));
   }, []);
 
   if (!subscription) {

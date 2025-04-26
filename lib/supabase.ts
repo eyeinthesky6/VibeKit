@@ -6,4 +6,5 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 /**
  * Supabase client singleton
  */
-export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+import { supabase } from './db/supabase';
+export { supabase };

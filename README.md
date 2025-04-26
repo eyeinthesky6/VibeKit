@@ -32,14 +32,17 @@ This is a starter template for building a SaaS application using **Next.js** wit
 ## Getting Started
 
 ### Magic Link Login
+
 - On the sign-in page, click "Use magic link instead" to request a passwordless login link via email.
 - After clicking the link in your email, you will be redirected back to `/auth-callback` and signed in automatically.
 
 ### Role Tiers
+
 - By default, new users are assigned the `basic` role. You can specify `role` as `basic`, `premium`, or `admin` during registration or by updating the `profiles` table/user_metadata.
 - The helper `getUserRole(userId)` in `lib/auth/role.ts` retrieves the user's current role.
 
 ### Role-based UI (RBAC)
+
 - Use the `<IfRole role="admin">...</IfRole>` component in dashboard pages to show/hide UI for specific roles.
 - Example:
   ```tsx
@@ -47,7 +50,7 @@ This is a starter template for building a SaaS application using **Next.js** wit
   // ...
   <IfRole role="admin">
     <Button>Admin Only Feature</Button>
-  </IfRole>
+  </IfRole>;
   ```
 
 ```bash

@@ -53,7 +53,7 @@ async function seed() {
       {
         email: email,
         passwordHash: passwordHash,
-        role: "owner",
+        role: 'owner',
       },
     ])
     .returning();
@@ -77,8 +77,20 @@ async function seed() {
 
   // Insert sample usage entries
   await db.insert(usage).values([
-    { user_id: user.id, team_id: team.id, action: 'sign_in', timestamp: new Date(), detail: 'Seeded usage' },
-    { user_id: user.id, team_id: team.id, action: 'prompt', timestamp: new Date(), detail: 'Prompt usage' },
+    {
+      user_id: user.id,
+      team_id: team.id,
+      action: 'sign_in',
+      timestamp: new Date(),
+      detail: 'Seeded usage',
+    },
+    {
+      user_id: user.id,
+      team_id: team.id,
+      action: 'prompt',
+      timestamp: new Date(),
+      detail: 'Prompt usage',
+    },
   ]);
 
   // Upload demo proof to Supabase Storage (if SDK available)

@@ -28,24 +28,43 @@ export default function Layout({ children }: LayoutProps) {
       {/* Sidebar */}
       <aside className="w-64 bg-gray-100 p-4">
         <nav className="space-y-4">
-          <Link href="/dashboard" className={`flex items-center space-x-2 ${pathname === '/dashboard' ? 'font-bold text-blue-600' : ''}`}>
+          <Link
+            href="/dashboard"
+            className={`flex items-center space-x-2 ${pathname === '/dashboard' ? 'font-bold text-blue-600' : ''}`}
+          >
             <Home />
             <span>Dashboard</span>
           </Link>
-          <Link href="/profile" className={`flex items-center space-x-2 ${pathname === '/profile' ? 'font-bold text-blue-600' : ''}`}>
+          <Link
+            href="/profile"
+            className={`flex items-center space-x-2 ${pathname === '/profile' ? 'font-bold text-blue-600' : ''}`}
+          >
             <User />
             <span>Profile</span>
           </Link>
-          <Link href="/billing" className={`flex items-center space-x-2 ${pathname === '/billing' ? 'font-bold text-blue-600' : ''}`}>
+          <Link
+            href="/billing"
+            className={`flex items-center space-x-2 ${pathname === '/billing' ? 'font-bold text-blue-600' : ''}`}
+          >
             <CreditCard />
             <span>Billing</span>
           </Link>
-          <Link href="/prompts" className={`flex items-center space-x-2 ${pathname === '/prompts' ? 'font-bold text-blue-600' : ''}`}>
-            <span role="img" aria-label="Prompts">💬</span>
+          <Link
+            href="/prompts"
+            className={`flex items-center space-x-2 ${pathname === '/prompts' ? 'font-bold text-blue-600' : ''}`}
+          >
+            <span role="img" aria-label="Prompts">
+              💬
+            </span>
             <span>Prompts</span>
           </Link>
-          <Link href="/proofs" className={`flex items-center space-x-2 ${pathname === '/proofs' ? 'font-bold text-blue-600' : ''}`}>
-            <span role="img" aria-label="Proofs">📁</span>
+          <Link
+            href="/proofs"
+            className={`flex items-center space-x-2 ${pathname === '/proofs' ? 'font-bold text-blue-600' : ''}`}
+          >
+            <span role="img" aria-label="Proofs">
+              📁
+            </span>
             <span>Proofs</span>
           </Link>
         </nav>

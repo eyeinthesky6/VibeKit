@@ -14,18 +14,16 @@ export default function PricingTable() {
 
   useEffect(() => {
     fetch('/api/billing/plans')
-      .then(res => res.json())
-      .then(data => setPlans(data.plans));
+      .then((res) => res.json())
+      .then((data) => setPlans(data.plans));
   }, []);
 
   return (
     <div className="space-y-4">
-      {plans.map(plan => (
+      {plans.map((plan) => (
         <div key={plan.id} className="p-4 border rounded-md">
           <h3 className="text-lg font-semibold">{plan.name}</h3>
-          <p className="text-sm">
-            Price: ${(plan.amount ?? 0) / 100}
-          </p>
+          <p className="text-sm">Price: ${(plan.amount ?? 0) / 100}</p>
           <CheckoutButton priceId={plan.id} />
         </div>
       ))}

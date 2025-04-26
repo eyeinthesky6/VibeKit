@@ -12,7 +12,9 @@ export default async function PricingPage() {
       <div className="bg-white rounded shadow p-6">
         <div className="flex flex-col items-center text-center">
           <span className="text-2xl mb-2">🚧</span>
-          <p className="mb-2 font-semibold">Pricing plans & subscriptions are under construction.</p>
+          <p className="mb-2 font-semibold">
+            Pricing plans & subscriptions are under construction.
+          </p>
           <ul className="text-sm text-gray-500 list-disc list-inside">
             <li>Plan comparison</li>
             <li>Upgrade/downgrade</li>

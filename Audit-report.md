@@ -7,31 +7,31 @@
 
 ## A. Severity-Ranked Findings Table
 
-| Severity   | Finding                                                                 | Evidence / File Reference                                   |
-|------------|------------------------------------------------------------------------|-------------------------------------------------------------|
-| Critical   | No duplicate/dead code, commented-out blocks, or circular imports found | Full grep scan: no matches for dead code, circular, or commented-out blocks |
-| Critical   | No hard-coded secrets, tokens, or passwords found in source             | Searched for secret/token/password/hardcoded: none found    |
-| Critical   | No missing dependencies in package.json                                | All imports resolved; no require/import errors              |
-| Critical   | No env keys present without validation in config/env.ts                | All keys in .env.example are validated in config/env.ts     |
-| Major      | No placeholder/stubbed implementations remain in app/ or components/   | All 'coming soon' stubs replaced with professional UIs      |
-| Major      | No unused variables, hooks, or feature flags found                     | Grep for unused/feature flag: none found                    |
-| Major      | No inconsistent file/folder names or path drift detected               | All file extensions and directory structure consistent      |
-| Major      | No incomplete authentication, payments, or analytics integrations      | Auth (NextAuth), Stripe, and usage analytics are wired      |
-| Major      | No API endpoints returning mock/null data                              | All endpoints return real data or error responses           |
-| Major      | No missing/misconfigured linters, formatters, or type-checkers         | ESLint, Prettier, Husky, lint-staged, and tsc configured    |
-| Major      | No missing RLS policies detected (cannot verify DB directly)           | DB config present, but RLS policy check requires DB access  |
-| Major      | No incomplete TypeScript configuration                                 | tsconfig.json present and valid                             |
-| Major      | No stale branches (local scan only)                                    | Only main branch detected                                   |
-| Medium     | No inconsistent file extensions (.js/.ts/.tsx) in UI/components        | All UI/components use .tsx or .ts as appropriate            |
-| Medium     | No redundant component exports or inconsistent export patterns         | All exports are consistent (named or default as needed)     |
-| Medium     | No incomplete documentation for major modules                          | README, CHANGELOG, ADR, and third-party licenses present    |
-| Medium     | No code style inconsistencies or missing Prettier config               | Prettier is present and integrated with lint-staged         |
-| Medium     | No large, unoptimized dependencies or bundle bloat detected            | No evidence of bloat; code splitting not verified           |
-| Medium     | No missing tests for major features                                    | Playwright and unit tests cover all major modules           |
-| Minor      | No placeholder TODOs or stubs found                                    | TODO.md contains only actionable, prioritized items         |
-| Minor      | No incomplete error handling detected                                  | Error handling present in all endpoints and UI flows         |
-| Minor      | No missing LICENSE or third-party compliance                           | LICENSE and third-party-licenses.md present                 |
-| Info       | No blind-spots in modules, but some areas depend on external access    | DB RLS, CI/CD, and production envs not directly auditable   |
+| Severity | Finding                                                                 | Evidence / File Reference                                                   |
+| -------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Critical | No duplicate/dead code, commented-out blocks, or circular imports found | Full grep scan: no matches for dead code, circular, or commented-out blocks |
+| Critical | No hard-coded secrets, tokens, or passwords found in source             | Searched for secret/token/password/hardcoded: none found                    |
+| Critical | No missing dependencies in package.json                                 | All imports resolved; no require/import errors                              |
+| Critical | No env keys present without validation in config/env.ts                 | All keys in .env.example are validated in config/env.ts                     |
+| Major    | No placeholder/stubbed implementations remain in app/ or components/    | All 'coming soon' stubs replaced with professional UIs                      |
+| Major    | No unused variables, hooks, or feature flags found                      | Grep for unused/feature flag: none found                                    |
+| Major    | No inconsistent file/folder names or path drift detected                | All file extensions and directory structure consistent                      |
+| Major    | No incomplete authentication, payments, or analytics integrations       | Auth (NextAuth), Stripe, and usage analytics are wired                      |
+| Major    | No API endpoints returning mock/null data                               | All endpoints return real data or error responses                           |
+| Major    | No missing/misconfigured linters, formatters, or type-checkers          | ESLint, Prettier, Husky, lint-staged, and tsc configured                    |
+| Major    | No missing RLS policies detected (cannot verify DB directly)            | DB config present, but RLS policy check requires DB access                  |
+| Major    | No incomplete TypeScript configuration                                  | tsconfig.json present and valid                                             |
+| Major    | No stale branches (local scan only)                                     | Only main branch detected                                                   |
+| Medium   | No inconsistent file extensions (.js/.ts/.tsx) in UI/components         | All UI/components use .tsx or .ts as appropriate                            |
+| Medium   | No redundant component exports or inconsistent export patterns          | All exports are consistent (named or default as needed)                     |
+| Medium   | No incomplete documentation for major modules                           | README, CHANGELOG, ADR, and third-party licenses present                    |
+| Medium   | No code style inconsistencies or missing Prettier config                | Prettier is present and integrated with lint-staged                         |
+| Medium   | No large, unoptimized dependencies or bundle bloat detected             | No evidence of bloat; code splitting not verified                           |
+| Medium   | No missing tests for major features                                     | Playwright and unit tests cover all major modules                           |
+| Minor    | No placeholder TODOs or stubs found                                     | TODO.md contains only actionable, prioritized items                         |
+| Minor    | No incomplete error handling detected                                   | Error handling present in all endpoints and UI flows                        |
+| Minor    | No missing LICENSE or third-party compliance                            | LICENSE and third-party-licenses.md present                                 |
+| Info     | No blind-spots in modules, but some areas depend on external access     | DB RLS, CI/CD, and production envs not directly auditable                   |
 
 ---
 
@@ -50,15 +50,15 @@
 
 ## C. Heat-Map: Modules vs. Issue Types
 
-| Module         | Structure & Hygiene | Feature Truth | Quality/Perf | Config/Security | Docs/Ops |
-|----------------|:------------------:|:-------------:|:------------:|:---------------:|:--------:|
-| app/           | 🟢                 | 🟢            | 🟢           | 🟢              | 🟢       |
-| components/    | 🟢                 | 🟢            | 🟢           | 🟢              | 🟢       |
-| hooks/         | 🟢                 | 🟢            | 🟢           | 🟢              | 🟢       |
-| modules/       | 🟢                 | 🟢            | 🟢           | 🟢              | 🟢       |
-| config/        | 🟢                 | 🟢            | 🟢           | 🟢              | 🟢       |
-| docs/          | 🟢                 | 🟢            | 🟢           | 🟢              | 🟢       |
-| tests/         | 🟢                 | 🟢            | 🟢           | 🟢              | 🟢       |
+| Module      | Structure & Hygiene | Feature Truth | Quality/Perf | Config/Security | Docs/Ops |
+| ----------- | :-----------------: | :-----------: | :----------: | :-------------: | :------: |
+| app/        |         🟢          |      🟢       |      🟢      |       🟢        |    🟢    |
+| components/ |         🟢          |      🟢       |      🟢      |       🟢        |    🟢    |
+| hooks/      |         🟢          |      🟢       |      🟢      |       🟢        |    🟢    |
+| modules/    |         🟢          |      🟢       |      🟢      |       🟢        |    🟢    |
+| config/     |         🟢          |      🟢       |      🟢      |       🟢        |    🟢    |
+| docs/       |         🟢          |      🟢       |      🟢      |       🟢        |    🟢    |
+| tests/      |         🟢          |      🟢       |      🟢      |       🟢        |    🟢    |
 
 🟢 = No issues found
 
@@ -81,4 +81,4 @@
 
 ---
 
-*Generated by Cascade AI — Read-only audit mode.*
+_Generated by Cascade AI — Read-only audit mode._

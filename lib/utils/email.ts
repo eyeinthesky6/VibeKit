@@ -17,7 +17,7 @@ export async function sendInvitationEmail(
   to: string,
   teamName: string,
   role: string,
-  inviteId: number
+  inviteId: number,
 ) {
   const url = `${env.BASE_URL}/sign-up?inviteId=${inviteId}`;
   const info = await transporter.sendMail({

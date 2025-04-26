@@ -1,10 +1,5 @@
 // Helper to fetch current user's role from Supabase
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { supabase } from '@/lib/db/supabase';
 
 export async function getUserRole(userId: string): Promise<'basic' | 'premium' | 'admin'> {
   // Try to fetch from user_metadata first

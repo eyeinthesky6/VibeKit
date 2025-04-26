@@ -1,11 +1,11 @@
-"use client";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { createClient } from "@supabase/supabase-js";
+'use client';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
 
 export default function AuthCallback() {
@@ -17,9 +17,9 @@ export default function AuthCallback() {
       const { data } = await supabase.auth.getSession();
       if (data.session) {
         // Optionally: set cookie or do other post-login logic
-        router.replace("/dashboard");
+        router.replace('/dashboard');
       } else {
-        router.replace("/sign-in?error=auth");
+        router.replace('/sign-in?error=auth');
       }
     }
     checkSession();
