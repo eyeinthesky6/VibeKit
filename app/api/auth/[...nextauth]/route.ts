@@ -11,7 +11,7 @@ const authOptions: NextAuthOptions = {
         email: { label: 'Email', type: 'email', placeholder: 'user@example.com' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials, _req) {
         if (!credentials?.email || !credentials?.password) return null;
         const user = await getUserByEmail(credentials.email);
         if (!user) return null;

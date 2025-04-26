@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
       throw new Error('No plan found for this subscription.');
     }
 
-    const productId = (plan.product as any).id;
+    const productId = ((plan.product as unknown) as Record<string, unknown>).id;
 
     if (!productId) {
       throw new Error('No product ID found for this subscription.');
@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
         stripeCustomerId: customerId,
         stripeSubscriptionId: subscriptionId,
         stripeProductId: productId,
-        planName: (plan.product as any).name,
+        planName: ((plan.product as unknown) as Record<string, unknown>).name,
         subscriptionStatus: subscription.status,
         updatedAt: new Date(),
       })

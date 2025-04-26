@@ -20,7 +20,7 @@ export async function fetchPrompts({
   page: number;
   pageSize: number;
   searchTerm?: string;
-}): Promise<{ data: any[]; total: number }> {
+}): Promise<{ data: unknown[]; total: number }> {
   let prompts = promptStore.filter((p) => p.user_id === userId);
   if (searchTerm) {
     prompts = prompts.filter((p) => p.prompt_text.includes(searchTerm));

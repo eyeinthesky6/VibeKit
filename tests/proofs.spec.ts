@@ -1,4 +1,4 @@
-import { uploadProof, downloadProof, listProofs } from '../modules/proofs/client';
+import { uploadProof, listProofs } from '../modules/proofs/client';
 describe('Proof Artifacts', () => {
   it('should upload and list proofs', async () => {
     const file = new File(['test'], 'test.txt');

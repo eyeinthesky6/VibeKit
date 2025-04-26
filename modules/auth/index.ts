@@ -1,10 +1,10 @@
 export interface AuthConfig {
-  middlewares?: Array<(req: any, res: any, next: any) => void>;
-  hooks?: Record<string, (...args: any[]) => void>;
+  middlewares?: Array<(req: unknown, res: unknown, next: unknown) => void>;
+  hooks?: Record<string, (...args: unknown[]) => void>;
   plugins?: Array<{ name: string; setup: () => void }>;
 }
 
-export function initAuthModule(config: AuthConfig): void {
+export function someAuthFunction(_user: unknown, _token: unknown, _options: unknown) {
   // Register middlewares
   if (Array.isArray(config.middlewares)) {
     config.middlewares.forEach((mw) => {
@@ -15,14 +15,16 @@ export function initAuthModule(config: AuthConfig): void {
   }
 
   // Register hooks
-  if (config.hooks) {
-    Object.entries(config.hooks).forEach(([name, fn]) => {
+  if (_config.hooks) {
+    Object.entries(_config.hooks).forEach(([name]) => {
       // In a real app, mount to hook registry
       console.log('Registered auth hook:', name);
     });
   }
 
   // Register plugins
+  if (Array.isArray(_config.plugins)) {
+    _config.plugins.forEach((plugin) => {
   if (Array.isArray(config.plugins)) {
     config.plugins.forEach((plugin) => {
       plugin.setup();

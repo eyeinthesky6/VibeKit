@@ -1,5 +1,5 @@
 import { getStorage } from '@/lib/utils/storage';
-import { supabase } from '@/lib/db/supabase';
+
 
 const BUCKET = 'proofs';
 

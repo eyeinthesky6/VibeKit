@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Missing userId or teamId' }, { status: 400 });
   }
 
-  let filters = [];
+  const filters = [];
   if (userId) filters.push(eq(usage.user_id, Number(userId)));
   if (teamId) filters.push(eq(usage.team_id, Number(teamId)));
 

@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 export type ActionState = {
   error?: string;
   success?: string;
-  [key: string]: any; // This allows for additional properties
+  [key: string]: unknown; // This allows for additional properties
 };
 
 type ValidatedActionFunction<S extends z.ZodType<any, any>, T> = (

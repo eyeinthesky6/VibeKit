@@ -23,6 +23,11 @@ export async function POST(request: NextRequest) {
       const subscription = event.data.object as Stripe.Subscription;
       await handleSubscriptionChange(subscription);
       break;
+    case 'checkout.session.completed': {
+      const session = event.data.object;
+      // handle session
+      break;
+    }
     default:
       console.log(`Unhandled event type ${event.type}`);
   }

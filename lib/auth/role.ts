@@ -8,7 +8,7 @@ export async function getUserRole(userId: string): Promise<'basic' | 'premium' |
     return user.user.user_metadata.role;
   }
   // Fallback: fetch from profiles table
-  const { data, error: profileError } = await supabase
+  const { data, error: _profileError } = await supabase
     .from('profiles')
     .select('role')
     .eq('id', userId)

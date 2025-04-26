@@ -39,9 +39,6 @@ async function createStripeProducts() {
   console.log('Stripe products and prices created successfully.');
 }
 
-import { randomUUID } from 'crypto';
-import { createReadStream } from 'fs';
-
 async function seed() {
   const email = 'test@test.com';
   const password = 'admin123';
@@ -75,7 +72,7 @@ async function seed() {
 
   await createStripeProducts();
 
-  // Insert sample usage entries
+  // Insrt sampl usag ntris
   await db.insert(usage).values([
     {
       user_id: user.id,
@@ -93,14 +90,14 @@ async function seed() {
     },
   ]);
 
-  // Upload demo proof to Supabase Storage (if SDK available)
+  // Upload dmo proof to Supabas Storag (if SDK availabl)
   try {
     const { supabase } = require('@/lib/db/supabase');
     const demoFile = Buffer.from('demo proof file');
     const filePath = `${Date.now()}_demo.txt`;
     await supabase.storage.from('proofs').upload(filePath, demoFile, { upsert: false });
     console.log('Demo proof uploaded to storage.');
-  } catch (e) {
+  } catch () {
     console.warn('Could not upload demo proof (Supabase SDK not available in seed context).');
   }
 }
