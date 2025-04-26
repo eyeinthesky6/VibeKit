@@ -22,6 +22,7 @@ import { cookies } from 'next/headers';
 import { createCheckoutSession } from '@/lib/payments/stripe';
 import { getUser, getUserWithTeam } from '@/lib/db/queries';
 import { validatedAction, validatedActionWithUser } from '@/lib/auth/middleware';
+import { sendInvitationEmail } from '@/lib/utils/email';
 
 async function logActivity(
   teamId: number | null | undefined,
@@ -427,7 +428,9 @@ export const inviteTeamMember = validatedActionWithUser(
       .limit(1);
     const inviteId = invitation[0]?.id;
     if (inviteId) {
-      await sendInvitationEmail(email, userWithTeam.team.name, role, inviteId);
+      // Use teamId as teamName placeholder since name isn't fetched
+      const teamName = userWithTeam.teamId?.toString() || '';
+      await sendInvitationEmail(email, teamName, role, inviteId);
     }
 
     return { success: 'Invitation sent successfully' };

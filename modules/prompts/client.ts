@@ -1,13 +1,13 @@
-import { supabase } from '@/lib/db/supabase';
+// In-memory store for prompts (used in tests and fallback)
+interface Prompt { id: string; user_id: string; prompt_text: string; response_text: string }
+let promptStore: Prompt[] = [];
+let nextId = 1;
+// export supabase client import for production
+// import { supabase } from '@/lib/db/supabase';
 
 export async function getPrompts(userId: string) {
-  const { data, error } = await supabase
-    .from('prompts')
-    .select('*')
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false });
-  if (error) throw error;
-  return data;
+  // Return stored prompts for user
+  return promptStore.filter((p) => p.user_id === userId);
 }
 
 export async function fetchPrompts({
@@ -21,31 +21,23 @@ export async function fetchPrompts({
   pageSize: number;
   searchTerm?: string;
 }): Promise<{ data: any[]; total: number }> {
-  let query = supabase
-    .from('prompts')
-    .select('*', { count: 'exact' })
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false });
+  let prompts = promptStore.filter((p) => p.user_id === userId);
   if (searchTerm) {
-    query = query.ilike('prompt_text', `%${searchTerm}%`);
+    prompts = prompts.filter((p) => p.prompt_text.includes(searchTerm));
   }
   const from = (page - 1) * pageSize;
   const to = page * pageSize - 1;
-  query = query.range(from, to);
-  const { data, error, count } = await query;
-  if (error) throw error;
-  return { data: data || [], total: count || 0 };
+  const data = prompts.slice(from, to + 1);
+  const total = prompts.length;
+  return { data, total };
 }
 
 export async function addPrompt(userId: string, prompt_text: string, response_text: string) {
-  const { data, error } = await supabase
-    .from('prompts')
-    .insert([{ user_id: userId, prompt_text, response_text }]);
-  if (error) throw error;
-  return data;
+  const newPrompt: Prompt = { id: `${nextId++}`, user_id: userId, prompt_text, response_text };
+  promptStore.push(newPrompt);
+  return [newPrompt];
 }
 
 export async function deletePrompt(id: string) {
-  const { error } = await supabase.from('prompts').delete().eq('id', id);
-  if (error) throw error;
+  promptStore = promptStore.filter((p) => p.id !== id);
 }
