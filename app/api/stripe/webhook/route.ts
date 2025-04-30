@@ -28,8 +28,19 @@ export async function POST(request: NextRequest) {
       await handleSubscriptionChange(subscription);
       break;
     case 'checkout.session.completed': {
-      const session = event.data.object;
-      // handle session
+      const session = event.data.object as Stripe.Checkout.Session;
+      if (session.subscription) {
+        try {
+          const subscription = await stripe.subscriptions.retrieve(
+            session.subscription as string
+          );
+          await handleSubscriptionChange(subscription);
+        } catch (err) {
+          console.error('Failed to handle checkout session subscription:', err);
+        }
+      } else {
+        console.warn('No subscription found on checkout.session.completed event.');
+      }
       break;
     }
     default:

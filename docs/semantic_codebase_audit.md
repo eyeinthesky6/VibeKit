@@ -11,7 +11,7 @@
 | Major     | Placeholder CI bypass (`ignoreBuildErrors`) and commented-out test logic                     | `next.config.js`, `tests/*.spec.ts` | Done    | Remove bypass flags (done), replace placeholders with real assertions. |
 | Major     | Duplicate “activityLogs” vs “activity_logs” naming drift in DB schema vs code               | `lib/db/schema.ts`, `lib/db/queries.ts`  | Done    | Standardized names to snake_case for consistency.      |
 | Major     | Unused SMTP env vars and UI imports (no email flows implemented)                             | `config/env.ts`, `lib/auth/index.tsx` | Done    | Pruned SMTP keys and validated no email logic needed. |
-| Major     | Placeholder code paths in webhook for `checkout.session.completed`                           | `app/api/stripe/webhook/route.ts`| Pending | Implement handling for checkout.session.completed.       |
+| Major     | Placeholder code paths in webhook for `checkout.session.completed`                           | `app/api/stripe/webhook/route.ts`| Done    | Implemented handler to retrieve and process subscription. |
 | Minor     | No rate-limiting or CORS protection on public API routes                                      | `app/api/*`                      | Pending | Add CORS middleware and rate-limit wrapper.              |
 | Minor     | Test coverage gaps: no tests for `/api/stripe/webhook`, auth middleware, drizzle queries     | `tests/`                         | Pending | Add unit tests for webhook, session middleware, DB queries. |
 | Info      | No React.memo/useCallback optimizations in UI components                                     | `components/`                    | Pending | Profile renders, wrap heavy lists in React.memo.         |
@@ -46,8 +46,8 @@
 
 ### 6. Stubbed webhook logic
 - **Evidence:** `// handle session` comments under `checkout.session.completed` in `webhook/route.ts`.
-- **Status:** Pending
-- **fixPlan:** Implement business logic: record subscription, notify user, update DB/UI.
+- **Status:** Done
+- **fixPlan:** Completed: fetched subscription via Stripe API and invoked `handleSubscriptionChange` with proper error handling.
 
 ### 7. Missing rate-limit/CORS
 - **Evidence:** No CORS headers or rate-limiting in any `/api/*` route.
