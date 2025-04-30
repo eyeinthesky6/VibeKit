@@ -9,4 +9,4 @@ describe('Prompt Logging', () => {
     expect(Array.isArray(prompts)).toBe(true);
     expect(prompts.some(p => p.prompt_text === 'hello')).toBe(true);
   });
-}
+});

@@ -145,12 +145,11 @@ When you're ready to deploy your SaaS application to production, follow these st
 In your Vercel project settings (or during deployment), add all the necessary environment variables (as defined in `.env.example`). For production, update values accordingly:
 
 1. `BASE_URL`: Your production domain.
-2. `NEXTAUTH_URL`: Your production auth callback URL.
-3. `STRIPE_PUBLIC_KEY`: Your live Stripe publishable key.
-4. `STRIPE_SECRET_KEY`: Your live Stripe secret key.
-5. `STRIPE_WEBHOOK_SECRET`: Your live Stripe webhook secret.
-6. `POSTGRES_URL`: Your production database URL.
-7. `AUTH_SECRET`: A random string, e.g. `openssl rand -base64 32`.
+2. `STRIPE_PUBLIC_KEY`: Your live Stripe publishable key.
+3. `STRIPE_SECRET_KEY`: Your live Stripe secret key.
+4. `STRIPE_WEBHOOK_SECRET`: Your live Stripe webhook secret.
+5. `POSTGRES_URL`: Your production database URL.
+6. `AUTH_SECRET`: A random string, e.g. `openssl rand -base64 32`.
 
 ## Other Templates
 
@@ -172,7 +171,6 @@ While this template is intentionally minimal and to be used as a learning resour
 | STRIPE_PUBLIC_KEY            | Stripe publishable key                                                           |
 | STRIPE_SECRET_KEY            | Stripe secret key                                                                |
 | STRIPE_WEBHOOK_SECRET        | Stripe webhook signing secret                                                    |
-| NEXTAUTH_URL                 | Base URL for NextAuth or authentication callbacks                                |
 | BASE_URL                     | Base application URL                                                             |
 | AUTH_SECRET                  | Secret used to sign cookies and tokens                                           |
 | FEATURE_X_ENABLED            | Flag to enable experimental features                                             |

@@ -5,35 +5,35 @@ export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 100 }),
   email: varchar('email', { length: 255 }).notNull().unique(),
-  passwordHash: text('password_hash').notNull(),
+  password_hash: text('password_hash').notNull(),
   role: varchar('role', { length: 20 }).notNull().default('member'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
-  deletedAt: timestamp('deleted_at'),
+  created_at: timestamp('created_at').notNull().defaultNow(),
+  updated_at: timestamp('updated_at').notNull().defaultNow(),
+  deleted_at: timestamp('deleted_at'),
 }).enableRLS();
 
 export const teams = pgTable('teams', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 100 }).notNull(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
-  stripeCustomerId: text('stripe_customer_id').unique(),
-  stripeSubscriptionId: text('stripe_subscription_id').unique(),
-  stripeProductId: text('stripe_product_id'),
-  planName: varchar('plan_name', { length: 50 }),
-  subscriptionStatus: varchar('subscription_status', { length: 20 }),
+  created_at: timestamp('created_at').notNull().defaultNow(),
+  updated_at: timestamp('updated_at').notNull().defaultNow(),
+  stripe_customer_id: text('stripe_customer_id').unique(),
+  stripe_subscription_id: text('stripe_subscription_id').unique(),
+  stripe_product_id: text('stripe_product_id'),
+  plan_name: varchar('plan_name', { length: 50 }),
+  subscription_status: varchar('subscription_status', { length: 20 }),
 }).enableRLS();
 
-export const teamMembers = pgTable('team_members', {
+export const team_members = pgTable('team_members', {
   id: serial('id').primaryKey(),
-  userId: integer('user_id')
+  user_id: integer('user_id')
     .notNull()
     .references(() => users.id),
-  teamId: integer('team_id')
+  team_id: integer('team_id')
     .notNull()
     .references(() => teams.id),
   role: varchar('role', { length: 50 }).notNull(),
-  joinedAt: timestamp('joined_at').notNull().defaultNow(),
+  joined_at: timestamp('joined_at').notNull().defaultNow(),
 }).enableRLS();
 
 export const usage = pgTable('usage', {
@@ -47,69 +47,69 @@ export const usage = pgTable('usage', {
 
 export const activity_logs = pgTable('activity_logs', {
   id: serial('id').primaryKey(),
-  teamId: integer('team_id')
+  team_id: integer('team_id')
     .notNull()
     .references(() => teams.id),
-  userId: integer('user_id').references(() => users.id),
+  user_id: integer('user_id').references(() => users.id),
   action: text('action').notNull(),
   timestamp: timestamp('timestamp').notNull().defaultNow(),
-  ipAddress: varchar('ip_address', { length: 45 }),
+  ip_address: varchar('ip_address', { length: 45 }),
 }).enableRLS();
 
 export const invitations = pgTable('invitations', {
   id: serial('id').primaryKey(),
-  teamId: integer('team_id')
+  team_id: integer('team_id')
     .notNull()
     .references(() => teams.id),
   email: varchar('email', { length: 255 }).notNull(),
   role: varchar('role', { length: 50 }).notNull(),
-  invitedBy: integer('invited_by')
+  invited_by: integer('invited_by')
     .notNull()
     .references(() => users.id),
-  invitedAt: timestamp('invited_at').notNull().defaultNow(),
+  invited_at: timestamp('invited_at').notNull().defaultNow(),
   status: varchar('status', { length: 20 }).notNull().default('pending'),
 }).enableRLS();
 
 export const teamsRelations = relations(teams, ({ many }) => ({
-  teamMembers: many(teamMembers),
+  team_members: many(team_members),
   activity_logs: many(activity_logs),
   invitations: many(invitations),
 }));
 
 export const usersRelations = relations(users, ({ many }) => ({
-  teamMembers: many(teamMembers),
-  invitationsSent: many(invitations),
+  team_members: many(team_members),
+  invitations_sent: many(invitations),
 }));
 
 export const invitationsRelations = relations(invitations, ({ one }) => ({
   team: one(teams, {
-    fields: [invitations.teamId],
+    fields: [invitations.team_id],
     references: [teams.id],
   }),
-  invitedBy: one(users, {
-    fields: [invitations.invitedBy],
+  invited_by: one(users, {
+    fields: [invitations.invited_by],
     references: [users.id],
   }),
 }));
 
-export const teamMembersRelations = relations(teamMembers, ({ one }) => ({
+export const teamMembersRelations = relations(team_members, ({ one }) => ({
   user: one(users, {
-    fields: [teamMembers.userId],
+    fields: [team_members.user_id],
     references: [users.id],
   }),
   team: one(teams, {
-    fields: [teamMembers.teamId],
+    fields: [team_members.team_id],
     references: [teams.id],
   }),
 }));
 
 export const activity_logs_relations = relations(activity_logs, ({ one }) => ({
   team: one(teams, {
-    fields: [activity_logs.teamId],
+    fields: [activity_logs.team_id],
     references: [teams.id],
   }),
   user: one(users, {
-    fields: [activity_logs.userId],
+    fields: [activity_logs.user_id],
     references: [users.id],
   }),
 }));
@@ -118,14 +118,14 @@ export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type Team = typeof teams.$inferSelect;
 export type NewTeam = typeof teams.$inferInsert;
-export type TeamMember = typeof teamMembers.$inferSelect;
-export type NewTeamMember = typeof teamMembers.$inferInsert;
+export type TeamMember = typeof team_members.$inferSelect;
+export type NewTeamMember = typeof team_members.$inferInsert;
 export type ActivityLog = typeof activity_logs.$inferSelect;
 export type NewActivityLog = typeof activity_logs.$inferInsert;
 export type Invitation = typeof invitations.$inferSelect;
 export type NewInvitation = typeof invitations.$inferInsert;
 export type TeamDataWithMembers = Team & {
-  teamMembers: (TeamMember & {
+  team_members: (TeamMember & {
     user: Pick<User, 'id' | 'name' | 'email'>;
   })[];
 };

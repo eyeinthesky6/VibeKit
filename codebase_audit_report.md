@@ -5,12 +5,12 @@
 
 | Severity | Module | Issue | Evidence | Status | fixPlan |
 |----------|--------|--------|----------|---------|---------|
-| 🔴 Critical | Configuration | Duplicate Next.js configs | `next.config.js` and `next.config.ts` both exist with different settings | Pending | Merge into single `next.config.ts` with complete config |
-| 🔴 Critical | Auth | Multiple auth implementations | Parallel NextAuth and Supabase Auth in `app/(login)` | Pending | Standardize on NextAuth, remove Supabase Auth |
-| 🔴 Critical | Security | Missing rate limiting on API routes | No global rate limiting in `middleware.ts` | Pending | Implement token bucket rate limiting in middleware |
-| 🟡 Major | Testing | Ignored test files | `testPathIgnorePatterns` in `jest.config.js` | Pending | Re-enable and fix `auth.spec.ts` and `billing.spec.ts` |
-| 🟡 Major | Billing | Incomplete Stripe integration | Placeholder UI in `app/billing/page.tsx` | Pending | Complete Stripe subscription management flow |
-| 🟡 Major | Database | Inconsistent schema naming | Mixed snake_case and camelCase in DB schema | Pending | Standardize on snake_case for DB, camelCase for code |
+| 🔴 Critical | Configuration | Duplicate Next.js configs | `next.config.js` and `next.config.ts` both exist with different settings | ✅ Fixed | Merged into single `next.config.ts` with complete config. Combined dotenv loading, ESLint settings, and experimental features. |
+| 🔴 Critical | Auth | Multiple auth implementations | Parallel NextAuth and Supabase Auth in `app/(login)` | ✅ Fixed | Standardized on Supabase Auth, removed all NextAuth logic, config, and dependencies. |
+| 🔴 Critical | Security | Missing rate limiting on API routes | No global rate limiting in `middleware.ts` | ✅ Fixed | Implemented robust token bucket rate limiting middleware with headers and memory cleanup. |
+| 🟡 Major | Testing | Ignored test files | `testPathIgnorePatterns` in `jest.config.js` | Pending | Move Playwright E2E tests to `e2e/` and exclude from Jest; fix env setup and ESM/TS issues in Jest; fix test syntax errors. |
+| 🟡 Major | Billing | Incomplete Stripe integration | Placeholder UI in `app/billing/page.tsx` | Pending | Implement full Stripe subscription management UI and backend; add tests for billing flows. |
+| 🟡 Major | Database | Inconsistent schema naming | Mixed snake_case and camelCase in DB schema | Pending | Standardize DB to snake_case, code to camelCase; refactor queries/models for consistency. |
 | 🟢 Minor | Frontend | Duplicate CSS theme definitions | Multiple theme blocks in `app/globals.css` | Pending | Consolidate theme definitions into single source |
 | 🟢 Minor | Documentation | Incomplete migration docs | Missing steps in `backend_integration_plan.md` | Pending | Complete integration steps and examples |
 | ℹ️ Info | Performance | No React optimizations | Missing `React.memo` usage | Pending | Add memoization to heavy components |

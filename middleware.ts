@@ -2,12 +2,24 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { signToken, verifyToken } from '@/lib/auth/session';
 
-// Simple in-memory rate limiter
-const RATE_LIMIT_WINDOW = 60 * 1000;
-const MAX_REQUESTS = 60;
-const rateLimitMap = new Map<string, { count: number; timestamp: number }>();
+// Token bucket rate limiter (in-memory, per-IP)
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const MAX_TOKENS = 60; // max requests per window
+const REFILL_RATE = MAX_TOKENS / (RATE_LIMIT_WINDOW / 1000); // tokens per second
+const rateLimitMap = new Map<string, { tokens: number; lastRefill: number }>();
+const CLEANUP_INTERVAL = 10 * 60 * 1000; // 10 minutes
+let lastCleanup = Date.now();
 
 const protectedRoutes = '/dashboard';
+
+function refillTokens(entry: { tokens: number; lastRefill: number }, now: number) {
+  const elapsed = (now - entry.lastRefill) / 1000;
+  const refill = Math.floor(elapsed * REFILL_RATE);
+  if (refill > 0) {
+    entry.tokens = Math.min(MAX_TOKENS, entry.tokens + refill);
+    entry.lastRefill = now;
+  }
+}
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -28,22 +40,43 @@ export async function middleware(request: NextRequest) {
     if (request.method === 'OPTIONS') {
       return new NextResponse(null, { status: 204, headers: corsHeaders });
     }
-    // Rate limiting by IP
+    // Token bucket rate limiting by IP
     const ip = request.headers.get('x-forwarded-for') || 'unknown';
     const now = Date.now();
-    const entry = rateLimitMap.get(ip) || { count: 0, timestamp: now };
-    if (now - entry.timestamp < RATE_LIMIT_WINDOW) {
-      entry.count += 1;
+    let entry = rateLimitMap.get(ip);
+    if (!entry) {
+      entry = { tokens: MAX_TOKENS, lastRefill: now };
+      rateLimitMap.set(ip, entry);
     } else {
-      entry.count = 1;
-      entry.timestamp = now;
+      refillTokens(entry, now);
     }
-    rateLimitMap.set(ip, entry);
-    if (entry.count > MAX_REQUESTS) {
-      return new NextResponse('Rate limit exceeded', { status: 429, headers: corsHeaders });
+    if (entry.tokens > 0) {
+      entry.tokens -= 1;
+    } else {
+      const reset = Math.ceil((entry.lastRefill + RATE_LIMIT_WINDOW - now) / 1000);
+      const res = new NextResponse('Rate limit exceeded', { status: 429, headers: corsHeaders });
+      res.headers.set('X-RateLimit-Limit', MAX_TOKENS.toString());
+      res.headers.set('X-RateLimit-Remaining', '0');
+      res.headers.set('X-RateLimit-Reset', reset.toString());
+      return res;
     }
+    // Add rate limit headers
+    const remaining = entry.tokens;
+    const reset = Math.ceil((entry.lastRefill + RATE_LIMIT_WINDOW - now) / 1000);
     const apiRes = NextResponse.next();
     Object.entries(corsHeaders).forEach(([key, value]) => apiRes.headers.set(key, value));
+    apiRes.headers.set('X-RateLimit-Limit', MAX_TOKENS.toString());
+    apiRes.headers.set('X-RateLimit-Remaining', remaining.toString());
+    apiRes.headers.set('X-RateLimit-Reset', reset.toString());
+    // Periodic cleanup of old IPs
+    if (now - lastCleanup > CLEANUP_INTERVAL) {
+      for (const [ip, entry] of rateLimitMap.entries()) {
+        if (now - entry.lastRefill > CLEANUP_INTERVAL) {
+          rateLimitMap.delete(ip);
+        }
+      }
+      lastCleanup = now;
+    }
     return apiRes;
   }
 

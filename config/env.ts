@@ -9,7 +9,6 @@ export interface EnvConfig {
   STRIPE_SECRET_KEY: string;
   STRIPE_WEBHOOK_SECRET: string;
   BASE_URL: string;
-  NEXTAUTH_URL: string;
   POSTGRES_URL: string;
   AUTH_SECRET: string;
   FEATURE_X_ENABLED: boolean;
@@ -29,7 +28,6 @@ const envSchema = z.object({
   STRIPE_SECRET_KEY: z.string().min(10),
   STRIPE_WEBHOOK_SECRET: z.string().min(10),
   BASE_URL: z.string().url(),
-  NEXTAUTH_URL: z.string().url(),
   POSTGRES_URL: z.string().min(1),
   AUTH_SECRET: z.string().min(10),
   FEATURE_X_ENABLED: z.preprocess((val) => val === 'true', z.boolean()),

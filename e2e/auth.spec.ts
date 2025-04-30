@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-
 const PASSWORD = process.env.E2E_TEST_PASSWORD!;
 
 test('User can sign up and is redirected to dashboard', async ({ page }) => {
