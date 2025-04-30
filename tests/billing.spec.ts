@@ -1,19 +1,16 @@
-import { test, expect } from '@playwright/test';
+import { POST } from '@/app/api/stripe/checkout/route';
+import { NextRequest } from 'next/server';
+import { loadEnv } from '@/config/env';
 
-test('User can checkout and see subscription status', async ({ page }) => {
-  // Login as test user
-  await page.goto('/sign-in');
-  await page.fill('input[name="email"]', 'testuser@example.com');
-  await page.fill('input[name="password"]', 'TestPassword123!');
-  await page.click('button[type="submit"]');
-  await page.waitForURL('**/dashboard');
+describe('API /api/stripe/checkout', () => {
+  beforeAll(() => loadEnv());
 
-  // Go to billing page
-  await page.goto('/dashboard/billing');
-  await page.click('text=Checkout');
-  // Simulate Stripe test redirect (replace with your Stripe test redirect logic as needed)
-  await page.waitForURL(/stripe/);
-  // Simulate returning to dashboard/billing
-  await page.goto('/dashboard/billing');
-  await expect(page.locator('text=Active')).toBeVisible();
+  it('returns 400 when missing planId', async () => {
+    const url = new URL('http://localhost/api/stripe/checkout');
+    const req = new NextRequest(url, { method: 'POST' });
+    const res = await POST(req as any);
+    expect(res.status).toBe(400);
+    const json = await res.json();
+    expect(json.error).toBe('Missing planId in request body');
+  });
 });

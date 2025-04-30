@@ -2,7 +2,11 @@ import type { Stripe } from 'stripe';
 import { handleSubscriptionChange, stripe } from '@/lib/payments/stripe';
 import { NextRequest, NextResponse } from 'next/server';
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+if (!webhookSecret) {
+  console.error('❌ Missing STRIPE_WEBHOOK_SECRET environment variable');
+  throw new Error('Missing STRIPE_WEBHOOK_SECRET environment variable');
+}
 
 export async function POST(request: NextRequest) {
   const payload = await request.text();
@@ -11,7 +15,7 @@ export async function POST(request: NextRequest) {
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(payload, signature, webhookSecret);
+    event = stripe.webhooks.constructEvent(payload, signature, webhookSecret!);
   } catch (err) {
     console.error('Webhook signature verification failed.', err);
     return NextResponse.json({ error: 'Webhook signature verification failed.' }, { status: 400 });

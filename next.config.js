@@ -1,12 +1,9 @@
 // Load environment variables from .env.local
-import dotenv from 'dotenv';
-dotenv.config();
+require('dotenv').config({ path: '.env.local' });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  eslint: { ignoreDuringBuilds: true },
-  typescript: { ignoreBuildErrors: true },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {

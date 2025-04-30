@@ -1,0 +1,91 @@
+# Full-Stack Semantic Codebase Audit
+
+**Date:** 2025-04-30
+
+## A. Findings Table (Critical / Major / Minor / Info)
+
+| Severity  | Finding                                                                                     | Location                         | Status  | fixPlan                                                  |
+|-----------|---------------------------------------------------------------------------------------------|----------------------------------|---------|----------------------------------------------------------|
+| Critical  | Missing RLS or fine-grained access on database tables                                       | `lib/db/schema.ts`               | Pending | Add Postgres RLS policies per tenant/user in schema.     |
+| Major     | Hard-coded secrets in example env (e.g. Supabase ANON key in `.env.example`)                 | `.env.example`                   | Pending | Move examples to placeholders, remove real keys.         |
+| Major     | Placeholder CI bypass (`ignoreBuildErrors`) and commented-out test logic                     | `next.config.js`, `tests/*.spec.ts` | Pending | Remove bypass flags (done), replace placeholders with real assertions. |
+| Major     | Duplicate “activityLogs” vs “activity_logs” naming drift in DB schema vs code               | `lib/db/schema.ts`               | Pending | Standardize table/field names to a single convention.    |
+| Major     | Unused SMTP env vars and UI imports (no email flows implemented)                             | `config/env.ts`, `lib/auth/index.tsx` | Pending | Prune SMTP keys or implement email-password reset flows. |
+| Minor     | Placeholder code paths in webhook for `checkout.session.completed`                           | `app/api/stripe/webhook/route.ts`| Pending | Implement handling for checkout.session.completed.       |
+| Minor     | No rate-limiting or CORS protection on public API routes                                      | `app/api/*`                      | Pending | Add CORS middleware and rate-limit wrapper.              |
+| Minor     | Test coverage gaps: no tests for `/api/stripe/webhook`, auth middleware, drizzle queries     | `tests/`                         | Pending | Add unit tests for webhook, session middleware, DB queries. |
+| Info      | No React.memo/useCallback optimizations in UI components                                     | `components/`                    | Pending | Profile renders, wrap heavy lists in React.memo.         |
+| Info      | No feature map in README or docs                                                             | `README.md`, `docs/`             | Pending | Add feature checklist & architecture diagram to README.  |
+
+## B. Detailed Findings
+
+### 1. Missing RLS or fine-grained access
+- **Evidence:** All `pgTable` definitions in `lib/db/schema.ts` lack RLS policy definitions.
+- **Status:** Pending
+- **fixPlan:** Enable Postgres RLS on `users`, `teams`, `usage`, etc., scoped by tenant or session, and enforce in Drizzle config.
+
+### 2. Hard-coded secrets in example env
+- **Evidence:** `.env.example` contains real-looking Supabase keys.
+- **Status:** Pending
+- **fixPlan:** Replace with `<YOUR_SUPABASE_URL>` placeholders; remove any real tokens.
+
+### 3. Placeholder CI bypass & test stubs
+- **Evidence:** Next.js build bypass flags and placeholder `expect(true)` in spec files.
+- **Status:** Pending
+- **fixPlan:** Keep strict CI, remove stubs, write real tests invoking the API handlers.
+
+### 4. Naming drift in DB schema
+- **Evidence:** Mixed `activity_logs` vs `activityLogs` usage in code.
+- **Status:** Pending
+- **fixPlan:** Standardize on snake_case table/column names or convert code to camelCase uniformly.
+
+### 5. Unused SMTP vars & UI auth module
+- **Evidence:** `config/env.ts` validates SMTP vars, but no email logic implemented; `lib/auth/index.tsx` unused server-side.
+- **Status:** Pending
+- **fixPlan:** Either implement email flows (password reset/invite) or prune SMTP keys; move UI-only code into frontend client lib.
+
+### 6. Stubbed webhook logic
+- **Evidence:** `// handle session` comments under `checkout.session.completed` in `webhook/route.ts`.
+- **Status:** Pending
+- **fixPlan:** Implement business logic: record subscription, notify user, update DB/UI.
+
+### 7. Missing rate-limit/CORS
+- **Evidence:** No CORS headers or rate-limiting in any `/api/*` route.
+- **Status:** Pending
+- **fixPlan:** Add global Next.js middleware for CORS and basic rate-limiting.
+
+### 8. Test coverage gaps
+- **Evidence:** No tests for webhook endpoint, auth middleware, or raw DB queries.
+- **Status:** Pending
+- **fixPlan:** Write Jest tests for `/api/stripe/webhook`, `lib/auth/middleware.ts`, and Drizzle queries with an in-memory DB.
+
+### 9. UI performance optimizations
+- **Evidence:** No usage of `React.memo` or `useCallback` in component library.
+- **Status:** Pending
+- **fixPlan:** Profile hot paths, wrap heavy components in `React.memo`, optimize event handlers with `useCallback`.
+
+### 10. Missing feature map in docs
+- **Evidence:** README covers setup but lacks visual feature map or migration notes.
+- **Status:** Pending
+- **fixPlan:** Add a `Features` section, architecture diagram, and changelog to `README.md`.
+
+## C. Summary Heatmap
+
+```
+               Hygiene  Features  Performance  Security  Docs
+lib/db         ●●       ●         ●            ●●         ●
+app/api        ●        ●●       ●            ●          ●
+components     ●        ●         ●●           ●          ●
+tests          ●●       ●         ●            ●          ●
+config         ●●       ●         ●            ●          ●
+README/docs    ●        ●         ●            ●          ●●
+```
+
+●● = multiple issues, ● = single issue
+
+## D. Blind-Spots
+
+1. **Frontend components**—the audit did not cover every UI file; further performance and duplication analysis may be needed.
+2. **E2E flows**—Playwright tests exercise some flows but may miss edge cases (webhook, billing portal redirects).
+3. **External integrations**—Supabase and Stripe live-call correctness not validated in this audit.
+4. **Dependency vulnerabilities**—no `npm audit` scan included here; review `package.json` externally.
