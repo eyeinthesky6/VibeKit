@@ -6,8 +6,8 @@
 
 | Severity  | Finding                                                                                     | Location                         | Status  | fixPlan                                                  |
 |-----------|---------------------------------------------------------------------------------------------|----------------------------------|---------|----------------------------------------------------------|
-| Critical  | Missing RLS or fine-grained access on database tables                                       | `lib/db/schema.ts`               | Pending | Add Postgres RLS policies per tenant/user in schema.     |
-| Major     | Hard-coded secrets in example env (e.g. Supabase ANON key in `.env.example`)                 | `.env.example`                   | Pending | Move examples to placeholders, remove real keys.         |
+| Critical  | Missing RLS or fine-grained access on database tables                                       | `lib/db/schema.ts`               | Done    | Add Postgres RLS policies per tenant/user in schema.     |
+| Major     | Hard-coded secrets in example env (e.g. Supabase ANON key in `.env.example`)                 | `.env.example`                   | Done    | Move examples to placeholders, remove real keys.         |
 | Major     | Placeholder CI bypass (`ignoreBuildErrors`) and commented-out test logic                     | `next.config.js`, `tests/*.spec.ts` | Pending | Remove bypass flags (done), replace placeholders with real assertions. |
 | Major     | Duplicate “activityLogs” vs “activity_logs” naming drift in DB schema vs code               | `lib/db/schema.ts`               | Pending | Standardize table/field names to a single convention.    |
 | Major     | Unused SMTP env vars and UI imports (no email flows implemented)                             | `config/env.ts`, `lib/auth/index.tsx` | Pending | Prune SMTP keys or implement email-password reset flows. |
@@ -21,12 +21,12 @@
 
 ### 1. Missing RLS or fine-grained access
 - **Evidence:** All `pgTable` definitions in `lib/db/schema.ts` lack RLS policy definitions.
-- **Status:** Pending
-- **fixPlan:** Enable Postgres RLS on `users`, `teams`, `usage`, etc., scoped by tenant or session, and enforce in Drizzle config.
+- **Status:** Done
+- **fixPlan:** Enable Postgres RLS on `users`, `teams`, `usage`, etc., scoped by tenant or session, and enforce in Drizzle config. Applied via migration `0002_restrict_rls_to_owner.sql`.
 
 ### 2. Hard-coded secrets in example env
 - **Evidence:** `.env.example` contains real-looking Supabase keys.
-- **Status:** Pending
+- **Status:** Done
 - **fixPlan:** Replace with `<YOUR_SUPABASE_URL>` placeholders; remove any real tokens.
 
 ### 3. Placeholder CI bypass & test stubs
