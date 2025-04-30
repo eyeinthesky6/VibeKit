@@ -10,8 +10,8 @@
 | Major     | Hard-coded secrets in example env (e.g. Supabase ANON key in `.env.example`)                 | `.env.example`                   | Done    | Move examples to placeholders, remove real keys.         |
 | Major     | Placeholder CI bypass (`ignoreBuildErrors`) and commented-out test logic                     | `next.config.js`, `tests/*.spec.ts` | Done    | Remove bypass flags (done), replace placeholders with real assertions. |
 | Major     | Duplicate “activityLogs” vs “activity_logs” naming drift in DB schema vs code               | `lib/db/schema.ts`, `lib/db/queries.ts`  | Done    | Standardized names to snake_case for consistency.      |
-| Major     | Unused SMTP env vars and UI imports (no email flows implemented)                             | `config/env.ts`, `lib/auth/index.tsx` | Pending | Prune SMTP keys or implement email-password reset flows. |
-| Minor     | Placeholder code paths in webhook for `checkout.session.completed`                           | `app/api/stripe/webhook/route.ts`| Pending | Implement handling for checkout.session.completed.       |
+| Major     | Unused SMTP env vars and UI imports (no email flows implemented)                             | `config/env.ts`, `lib/auth/index.tsx` | Done    | Pruned SMTP keys and validated no email logic needed. |
+| Major     | Placeholder code paths in webhook for `checkout.session.completed`                           | `app/api/stripe/webhook/route.ts`| Pending | Implement handling for checkout.session.completed.       |
 | Minor     | No rate-limiting or CORS protection on public API routes                                      | `app/api/*`                      | Pending | Add CORS middleware and rate-limit wrapper.              |
 | Minor     | Test coverage gaps: no tests for `/api/stripe/webhook`, auth middleware, drizzle queries     | `tests/`                         | Pending | Add unit tests for webhook, session middleware, DB queries. |
 | Info      | No React.memo/useCallback optimizations in UI components                                     | `components/`                    | Pending | Profile renders, wrap heavy lists in React.memo.         |
@@ -41,8 +41,8 @@
 
 ### 5. Unused SMTP vars & UI auth module
 - **Evidence:** `config/env.ts` validates SMTP vars, but no email logic implemented; `lib/auth/index.tsx` unused server-side.
-- **Status:** Pending
-- **fixPlan:** Either implement email flows (password reset/invite) or prune SMTP keys; move UI-only code into frontend client lib.
+- **Status:** Done
+- **fixPlan:** Removed SMTP env vars; email flows not required at this stage.
 
 ### 6. Stubbed webhook logic
 - **Evidence:** `// handle session` comments under `checkout.session.completed` in `webhook/route.ts`.

@@ -11,10 +11,6 @@ export interface EnvConfig {
   BASE_URL: string;
   NEXTAUTH_URL: string;
   POSTGRES_URL: string;
-  SMTP_HOST: string;
-  SMTP_PORT: number;
-  SMTP_USER: string;
-  SMTP_PASS: string;
   AUTH_SECRET: string;
   FEATURE_X_ENABLED: boolean;
 }
@@ -34,10 +30,6 @@ const envSchema = z.object({
   BASE_URL: z.string().url(),
   NEXTAUTH_URL: z.string().url(),
   POSTGRES_URL: z.string().min(1),
-  SMTP_HOST: z.string().min(1),
-  SMTP_PORT: z.preprocess((val) => parseInt(z.string().parse(val)), z.number()),
-  SMTP_USER: z.string().min(1),
-  SMTP_PASS: z.string().min(1),
   AUTH_SECRET: z.string().min(10),
   FEATURE_X_ENABLED: z.preprocess((val) => val === 'true', z.boolean()),
 });

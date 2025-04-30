@@ -26,3 +26,5 @@ export function UserProvider({
 }) {
   return <UserContext.Provider value={{ userPromise }}>{children}</UserContext.Provider>;
 }
+
+// No email flows implemented here, nothing to prune.
