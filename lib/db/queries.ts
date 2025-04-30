@@ -1,6 +1,6 @@
 import { desc, and, eq, isNull } from 'drizzle-orm';
 import { db } from './drizzle';
-import { activityLogs, teamMembers, teams, users } from './schema';
+import { activity_logs, teamMembers, teams, users } from './schema';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/lib/auth/session';
 
@@ -82,16 +82,16 @@ export async function getActivityLogs() {
 
   return await db
     .select({
-      id: activityLogs.id,
-      action: activityLogs.action,
-      timestamp: activityLogs.timestamp,
-      ipAddress: activityLogs.ipAddress,
+      id: activity_logs.id,
+      action: activity_logs.action,
+      timestamp: activity_logs.timestamp,
+      ipAddress: activity_logs.ipAddress,
       userName: users.name,
     })
-    .from(activityLogs)
-    .leftJoin(users, eq(activityLogs.userId, users.id))
-    .where(eq(activityLogs.userId, user.id))
-    .orderBy(desc(activityLogs.timestamp))
+    .from(activity_logs)
+    .leftJoin(users, eq(activity_logs.userId, users.id))
+    .where(eq(activity_logs.userId, user.id))
+    .orderBy(desc(activity_logs.timestamp))
     .limit(10);
 }
 

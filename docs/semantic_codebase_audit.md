@@ -9,7 +9,7 @@
 | Critical  | Missing RLS or fine-grained access on database tables                                       | `lib/db/schema.ts`               | Done    | Add Postgres RLS policies per tenant/user in schema.     |
 | Major     | Hard-coded secrets in example env (e.g. Supabase ANON key in `.env.example`)                 | `.env.example`                   | Done    | Move examples to placeholders, remove real keys.         |
 | Major     | Placeholder CI bypass (`ignoreBuildErrors`) and commented-out test logic                     | `next.config.js`, `tests/*.spec.ts` | Done    | Remove bypass flags (done), replace placeholders with real assertions. |
-| Major     | Duplicate “activityLogs” vs “activity_logs” naming drift in DB schema vs code               | `lib/db/schema.ts`               | Pending | Standardize table/field names to a single convention.    |
+| Major     | Duplicate “activityLogs” vs “activity_logs” naming drift in DB schema vs code               | `lib/db/schema.ts`, `lib/db/queries.ts`  | Done    | Standardized names to snake_case for consistency.      |
 | Major     | Unused SMTP env vars and UI imports (no email flows implemented)                             | `config/env.ts`, `lib/auth/index.tsx` | Pending | Prune SMTP keys or implement email-password reset flows. |
 | Minor     | Placeholder code paths in webhook for `checkout.session.completed`                           | `app/api/stripe/webhook/route.ts`| Pending | Implement handling for checkout.session.completed.       |
 | Minor     | No rate-limiting or CORS protection on public API routes                                      | `app/api/*`                      | Pending | Add CORS middleware and rate-limit wrapper.              |
@@ -36,8 +36,8 @@
 
 ### 4. Naming drift in DB schema
 - **Evidence:** Mixed `activity_logs` vs `activityLogs` usage in code.
-- **Status:** Pending
-- **fixPlan:** Standardize on snake_case table/column names or convert code to camelCase uniformly.
+- **Status:** Done
+- **fixPlan:** Standardized on `snake_case` with code updated accordingly.
 
 ### 5. Unused SMTP vars & UI auth module
 - **Evidence:** `config/env.ts` validates SMTP vars, but no email logic implemented; `lib/auth/index.tsx` unused server-side.

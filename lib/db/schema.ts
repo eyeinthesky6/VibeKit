@@ -45,7 +45,7 @@ export const usage = pgTable('usage', {
   detail: text('detail'),
 });
 
-export const activityLogs = pgTable('activity_logs', {
+export const activity_logs = pgTable('activity_logs', {
   id: serial('id').primaryKey(),
   teamId: integer('team_id')
     .notNull()
@@ -72,7 +72,7 @@ export const invitations = pgTable('invitations', {
 
 export const teamsRelations = relations(teams, ({ many }) => ({
   teamMembers: many(teamMembers),
-  activityLogs: many(activityLogs),
+  activity_logs: many(activity_logs),
   invitations: many(invitations),
 }));
 
@@ -103,13 +103,13 @@ export const teamMembersRelations = relations(teamMembers, ({ one }) => ({
   }),
 }));
 
-export const activityLogsRelations = relations(activityLogs, ({ one }) => ({
+export const activity_logs_relations = relations(activity_logs, ({ one }) => ({
   team: one(teams, {
-    fields: [activityLogs.teamId],
+    fields: [activity_logs.teamId],
     references: [teams.id],
   }),
   user: one(users, {
-    fields: [activityLogs.userId],
+    fields: [activity_logs.userId],
     references: [users.id],
   }),
 }));
@@ -120,8 +120,8 @@ export type Team = typeof teams.$inferSelect;
 export type NewTeam = typeof teams.$inferInsert;
 export type TeamMember = typeof teamMembers.$inferSelect;
 export type NewTeamMember = typeof teamMembers.$inferInsert;
-export type ActivityLog = typeof activityLogs.$inferSelect;
-export type NewActivityLog = typeof activityLogs.$inferInsert;
+export type ActivityLog = typeof activity_logs.$inferSelect;
+export type NewActivityLog = typeof activity_logs.$inferInsert;
 export type Invitation = typeof invitations.$inferSelect;
 export type NewInvitation = typeof invitations.$inferInsert;
 export type TeamDataWithMembers = Team & {
