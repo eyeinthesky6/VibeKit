@@ -6,50 +6,56 @@ import { redirect } from 'next/navigation';
 export type ActionState = {
   error?: string;
   success?: string;
-  [key: string]: unknown; // This allows for additional properties
+  [key: string]: unknown;
 };
 
-type ValidatedActionFunction<S extends z.ZodType<any, any>, T> = (
+type ValidatedActionFunction<S extends z.ZodType<any, any>> = (
   data: z.infer<S>,
   formData: FormData,
-) => Promise<T>;
+) => Promise<ActionState>;
 
-export function validatedAction<S extends z.ZodType<any, any>, T>(
+export function validatedAction<S extends z.ZodType<any, any>>(
   schema: S,
-  action: ValidatedActionFunction<S, T>,
+  action: ValidatedActionFunction<S>,
 ) {
-  return async (prevState: ActionState, formData: FormData): Promise<T> => {
+  return async (
+    prevState: ActionState,
+    formData: FormData,
+  ): Promise<ActionState> => {
     const result = schema.safeParse(Object.fromEntries(formData));
     if (!result.success) {
-      return { error: result.error.errors[0].message } as T;
+      return { ...prevState, error: result.error.errors[0].message };
     }
 
-    return action(result.data, formData);
+    const actionResult = await action(result.data, formData);
+    return { ...prevState, ...actionResult };
   };
 }
 
-type ValidatedActionWithUserFunction<S extends z.ZodType<any, any>, T> = (
+type ValidatedActionWithUserFunction<S extends z.ZodType<any, any>> = (
   data: z.infer<S>,
   formData: FormData,
   user: User,
-) => Promise<T>;
+) => Promise<ActionState>;
 
-export function validatedActionWithUser<S extends z.ZodType<any, any>, T>(
+export function validatedActionWithUser<S extends z.ZodType<any, any>>(
   schema: S,
-  action: ValidatedActionWithUserFunction<S, T>,
+  action: ValidatedActionWithUserFunction<S>,
 ) {
-  return async (prevState: ActionState, formData: FormData): Promise<T> => {
+  return async (
+    prevState: ActionState,
+    formData: FormData,
+  ): Promise<ActionState> => {
     const user = await getUser();
-    if (!user) {
-      throw new Error('User is not authenticated');
-    }
+    if (!user) throw new Error('User is not authenticated');
 
     const result = schema.safeParse(Object.fromEntries(formData));
     if (!result.success) {
-      return { error: result.error.errors[0].message } as T;
+      return { ...prevState, error: result.error.errors[0].message };
     }
 
-    return action(result.data, formData, user);
+    const actionResult = await action(result.data, formData, user);
+    return { ...prevState, ...actionResult };
   };
 }
 

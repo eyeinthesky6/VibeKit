@@ -4,6 +4,14 @@ import { compare } from 'bcryptjs';
 import { getUserByEmail } from '@/lib/db/queries';
 
 const authOptions: NextAuthOptions = {
+  callbacks: {
+    async session({ session, token }) {
+      if (session.user && token) {
+        (session.user as any).id = token.sub;
+      }
+      return session;
+    },
+  },
   providers: [
     CredentialsProvider({
       name: 'Credentials',

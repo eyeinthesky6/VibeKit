@@ -97,7 +97,7 @@ async function seed() {
     const filePath = `${Date.now()}_demo.txt`;
     await supabase.storage.from('proofs').upload(filePath, demoFile, { upsert: false });
     console.log('Demo proof uploaded to storage.');
-  } catch () {
+  } catch (error) {
     console.warn('Could not upload demo proof (Supabase SDK not available in seed context).');
   }
 }

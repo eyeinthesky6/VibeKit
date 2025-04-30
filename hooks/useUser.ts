@@ -2,8 +2,8 @@ import { useSession } from 'next-auth/react';
 
 export interface User {
   id: number;
-  name: string;
-  email: string;
+  name?: string | null;
+  email?: string | null;
 }
 
 /**
@@ -13,8 +13,8 @@ export function useUser(): User | null {
   const { data: session } = useSession();
   if (!session?.user) return null;
   return {
-    id: session.user.id as number,
-    name: session.user.name as string,
-    email: session.user.email,
+    id: (session.user as any).id ? Number((session.user as any).id) : 0,
+    name: session.user.name ?? null,
+    email: session.user.email ?? null,
   };
 }

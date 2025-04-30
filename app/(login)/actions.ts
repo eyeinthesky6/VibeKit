@@ -89,10 +89,12 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
   const redirectTo = formData.get('redirect') as string | null;
   if (redirectTo === 'checkout') {
     const priceId = formData.get('priceId') as string;
-    return createCheckoutSession({ team: foundTeam, priceId });
+    await createCheckoutSession({ team: foundTeam, priceId });
+    return { success: 'checkout' };
   }
 
   redirect('/dashboard');
+  return { success: 'redirected' };
 });
 
 const signUpSchema = z.object({
@@ -140,6 +142,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
       error: 'Failed to create Supabase user: ' + supaError.message,
       email,
       password,
+      success: undefined,
     };
   }
 
@@ -197,7 +200,12 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
       [createdTeam] = await db.select().from(teams).where(eq(teams.id, teamId)).limit(1);
     } else {
-      return { error: 'Invalid or expired invitation.', email, password };
+      return {
+      error: 'Invalid or expired invitation.',
+      email,
+      password,
+      success: undefined,
+    };
     }
   } else {
     // Create a new team if there's no invitation
@@ -236,10 +244,12 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   const redirectTo = formData.get('redirect') as string | null;
   if (redirectTo === 'checkout') {
     const priceId = formData.get('priceId') as string;
-    return createCheckoutSession({ team: createdTeam, priceId });
+    await createCheckoutSession({ team: createdTeam, priceId });
+    return { success: 'checkout' };
   }
 
   redirect('/dashboard');
+  return { success: 'redirected' };
 });
 
 export async function signOut() {
@@ -298,7 +308,12 @@ export const deleteAccount = validatedActionWithUser(deleteAccountSchema, async 
 
   const isPasswordValid = await comparePasswords(password, user.passwordHash);
   if (!isPasswordValid) {
-    return { error: 'Incorrect password. Account deletion failed.' };
+    return {
+      error: 'Incorrect password. Account deletion failed.',
+      email: '',
+      password: '',
+      success: undefined,
+    };
   }
 
   const userWithTeam = await getUserWithTeam(user.id);
@@ -388,7 +403,7 @@ export const inviteTeamMember = validatedActionWithUser(
       .limit(1);
 
     if (existingMember.length > 0) {
-      return { error: 'User is already a member of this team' };
+      return { error: 'User is already a member of this team', email: '', password: '', success: undefined };
     }
 
     // Check if there's an existing invitation
@@ -405,7 +420,7 @@ export const inviteTeamMember = validatedActionWithUser(
       .limit(1);
 
     if (existingInvitation.length > 0) {
-      return { error: 'An invitation has already been sent to this email' };
+      return { error: 'An invitation has already been sent to this email', email: '', password: '', success: undefined };
     }
 
     // Create a new invitation

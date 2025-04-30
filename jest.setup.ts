@@ -1,4 +1,2 @@
 // Ensure test environment
-import dotenv from 'dotenv';
-// Load test environment variables
-dotenv.config({ path: '.env.test' });
+// Test environment is loaded in next.config.js

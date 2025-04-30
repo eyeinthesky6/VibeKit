@@ -1,9 +1,8 @@
-import dotenv from 'dotenv';
-dotenv.config({ path: '.env.local' });
 import { loadEnv } from './config/env';
 const env = loadEnv();
 import type { Config } from 'drizzle-kit';
 
+// Environment variables are loaded in next.config.js
 export default {
   schema: './lib/db/schema.ts',
   out: './lib/db/migrations',

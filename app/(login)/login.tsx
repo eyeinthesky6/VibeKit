@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useActionState, useState } from 'react';
+import { useState, useActionState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -63,7 +63,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                     name="email"
                     type="email"
                     autoComplete="email"
-                    defaultValue={state.email}
+                    defaultValue={typeof state.email === 'string' ? state.email : ''}
                     required
                     maxLength={50}
                     className="appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
@@ -82,7 +82,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                     name="password"
                     type="password"
                     autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
-                    defaultValue={state.password}
+                    defaultValue={typeof state.password === 'string' ? state.password : ''}
                     required
                     minLength={8}
                     maxLength={100}

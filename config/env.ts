@@ -18,11 +18,9 @@ export interface EnvConfig {
 /**
  * Load and validate environment variables
  */
-import dotenv from 'dotenv';
-// Load environment variables before validation
-dotenv.config({ path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env.local' });
 import { z } from 'zod';
 
+// Environment variables are loaded in next.config.js
 const envSchema = z.object({
   NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(10),
