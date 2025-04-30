@@ -1,16 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 
 interface CheckoutButtonProps {
   priceId: string;
 }
 
-export default function CheckoutButton({ priceId }: CheckoutButtonProps) {
+function CheckoutButton({ priceId }: CheckoutButtonProps) {
   const [loading, setLoading] = useState(false);
 
-  const handleClick = async () => {
+  const handleClick = useCallback(async () => {
     setLoading(true);
     const res = await fetch('/api/billing/checkout', {
       method: 'POST',
@@ -25,7 +25,7 @@ export default function CheckoutButton({ priceId }: CheckoutButtonProps) {
       return;
     }
     window.location.href = url;
-  };
+  }, [priceId]);
 
   return (
     <Button onClick={handleClick} disabled={loading}>
@@ -33,3 +33,5 @@ export default function CheckoutButton({ priceId }: CheckoutButtonProps) {
     </Button>
   );
 }
+
+export default React.memo(CheckoutButton);

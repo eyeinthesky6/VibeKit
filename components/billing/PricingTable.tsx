@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import CheckoutButton from './CheckoutButton';
 
 interface Plan {
@@ -9,7 +9,7 @@ interface Plan {
   amount: number | null;
 }
 
-export default function PricingTable() {
+function PricingTable() {
   const [plans, setPlans] = useState<Plan[]>([]);
 
   useEffect(() => {
@@ -30,3 +30,5 @@ export default function PricingTable() {
     </div>
   );
 }
+
+export default React.memo(PricingTable);
