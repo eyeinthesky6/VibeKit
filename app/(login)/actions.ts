@@ -324,7 +324,7 @@ export const deleteAccount = validatedActionWithUser(deleteAccountSchema, async 
   await db
     .update(users)
     .set({
-      deletedAt: sql`CURRENT_TIMESTAMP`,
+      deleted_at: sql`CURRENT_TIMESTAMP`,
       email: sql`CONCAT(email, '-', id, '-deleted')`, // Ensure email uniqueness
     })
     .where(eq(users.id, user.id));
@@ -428,7 +428,7 @@ export const inviteTeamMember = validatedActionWithUser(
       team_id: userWithTeam.team_id,
       email,
       role,
-      invitedBy: user.id,
+      invited_by: user.id,
       status: 'pending',
     });
 

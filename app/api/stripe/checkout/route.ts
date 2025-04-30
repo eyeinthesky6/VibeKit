@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
-import { users, teams, teamMembers } from '@/lib/db/schema';
+import { users, teams, team_members } from '@/lib/db/schema';
 import { setSession } from '@/lib/auth/session';
 import { getSession } from '@/lib/auth/session';
 import { NextRequest, NextResponse } from 'next/server';
@@ -10,12 +10,12 @@ import type { CheckoutRequest, CheckoutResponse } from '@/types/api';
 export async function POST(request: NextRequest) {
   const session = await getSession();
   if (!session) {
-    return NextResponse.json<CheckoutResponse>({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json<CheckoutResponse>({ error: { code: 'UNAUTHORIZED', message: 'Unauthorized' } }, { status: 401 });
   }
 
   const { planId }: CheckoutRequest = await request.json();
   if (!planId) {
-    return NextResponse.json<CheckoutResponse>({ error: 'Missing planId in request body' }, { status: 400 });
+    return NextResponse.json<CheckoutResponse>({ error: { code: 'MISSING_PLAN_ID', message: 'Missing planId in request body' } }, { status: 400 });
   }
 
   try {
@@ -31,6 +31,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json<CheckoutResponse>({ url: session.url ?? undefined });
   } catch (error) {
     console.error('Error creating checkout session:', error);
-    return NextResponse.json<CheckoutResponse>({ error: 'Internal error' }, { status: 500 });
+    return NextResponse.json<CheckoutResponse>({ error: { code: 'INTERNAL_ERROR', message: 'Internal error' } }, { status: 500 });
   }
 }

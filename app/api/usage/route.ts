@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   const startDate = searchParams.get('startDate');
   const endDate = searchParams.get('endDate');
   if (!userId && !teamId) {
-    return NextResponse.json({ error: 'Missing userId or teamId' }, { status: 400 });
+    return NextResponse.json({ error: { code: 'MISSING_USER_OR_TEAM_ID', message: 'Missing userId or teamId' } }, { status: 400 });
   }
 
   const filters: any[] = [];

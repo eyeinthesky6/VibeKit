@@ -2,6 +2,14 @@ import { POST } from '@/app/api/stripe/checkout/route';
 import { NextRequest } from 'next/server';
 import { loadEnv } from '@/config/env';
 
+jest.mock('next/headers', () => ({
+  cookies: jest.fn(() => ({
+    get: jest.fn(() => undefined),
+    set: jest.fn(),
+    delete: jest.fn(),
+  })),
+}));
+
 describe('API /api/stripe/checkout', () => {
   beforeAll(() => loadEnv());
 
@@ -11,6 +19,6 @@ describe('API /api/stripe/checkout', () => {
     const res = await POST(req as any);
     expect(res.status).toBe(400);
     const json = await res.json();
-    expect(json.error).toBe('Missing planId in request body');
+    expect(json.error).toEqual({ code: 'MISSING_PLAN_ID', message: 'Missing planId in request body' });
   });
 });

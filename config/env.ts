@@ -12,6 +12,8 @@ export interface EnvConfig {
   POSTGRES_URL: string;
   AUTH_SECRET: string;
   FEATURE_X_ENABLED: boolean;
+  REDIS_URL?: string;
+  SENTRY_DSN?: string;
 }
 
 /**
@@ -28,9 +30,11 @@ const envSchema = z.object({
   STRIPE_SECRET_KEY: z.string().min(10),
   STRIPE_WEBHOOK_SECRET: z.string().min(10),
   BASE_URL: z.string().url(),
-  POSTGRES_URL: z.string().min(1),
+  POSTGRES_URL: z.string().url(),
   AUTH_SECRET: z.string().min(10),
   FEATURE_X_ENABLED: z.preprocess((val) => val === 'true', z.boolean()),
+  REDIS_URL: z.string().url().optional(),
+  SENTRY_DSN: z.string().url().optional(),
 });
 
 export function loadEnv(): EnvConfig {

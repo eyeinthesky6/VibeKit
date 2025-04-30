@@ -6,7 +6,7 @@ export interface CheckoutRequest {
 
 export interface CheckoutResponse {
   url?: string;
-  error?: string;
+  error?: string | { code: string; message: string };
 }
 
 export interface UsageRecord {

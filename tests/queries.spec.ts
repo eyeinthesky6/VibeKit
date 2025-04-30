@@ -1,29 +1,48 @@
 import { getActivityLogs } from '@/lib/db/queries';
-import { db } from '@/lib/db/drizzle';
 import * as sessionModule from '@/lib/db/queries';
 
 jest.mock('@/lib/db/queries');
-jest.mock('@/lib/db/drizzle', () => ({
-  db: {
-    select: jest.fn().mockReturnThis(),
-    from: jest.fn().mockReturnThis(),
-    leftJoin: jest.fn().mockReturnThis(),
-    where: jest.fn().mockReturnThis(),
-    orderBy: jest.fn().mockReturnThis(),
-    limit: jest.fn().mockReturnValue(Promise.resolve([{ id: 1, action: 'test', timestamp: new Date(), ipAddress: '127.0.0.1', userName: 'Test' }]))
-  }
-}));
+jest.mock('@/lib/db/drizzle', () => {
+  const chain = () => new Proxy({}, {
+    get: () => chain,
+    apply: () => chain,
+  });
+  return { db: { select: chain, from: chain, leftJoin: chain, where: chain, orderBy: chain, limit: chain } };
+});
+
+// Mock getActivityLogs to return a Promise resolving to an array
+const mockLogs = [{ id: 1, action: 'test', timestamp: new Date(), ip_address: '127.0.0.1', user_name: 'Test' }];
+
+// Patch getActivityLogs to use the real implementation for the test
+const realGetActivityLogs = jest.requireActual('@/lib/db/queries').getActivityLogs;
+
+// Tests
 
 describe('getActivityLogs Query', () => {
   it('throws if user is not authenticated', async () => {
     (sessionModule.getUser as jest.Mock).mockResolvedValue(null);
-    await expect(getActivityLogs()).rejects.toThrow('User not authenticated');
+    await expect(realGetActivityLogs()).rejects.toThrow('User not authenticated');
   });
 
   it('returns logs when user is authenticated', async () => {
     (sessionModule.getUser as jest.Mock).mockResolvedValue({ id: 1 });
-    const logs = await getActivityLogs();
-    expect(logs).toBeInstanceOf(Array);
+    // Mock db.select chain to return mockLogs
+    const db = require('@/lib/db/drizzle').db;
+    db.select.mockReturnThis();
+    db.from.mockReturnThis();
+    db.leftJoin.mockReturnThis();
+    db.where.mockReturnThis();
+    db.orderBy.mockReturnThis();
+    db.limit.mockResolvedValue(mockLogs);
+    const logs = await realGetActivityLogs();
+    expect(Array.isArray(logs)).toBe(true);
     expect(logs[0].action).toBe('test');
+  });
+
+  it('returns error when db throws', async () => {
+    (sessionModule.getUser as jest.Mock).mockResolvedValue({ id: 1 });
+    const db = require('@/lib/db/drizzle').db;
+    db.select.mockImplementation(() => { throw new Error('DB error'); });
+    await expect(realGetActivityLogs()).rejects.toThrow('DB error');
   });
 });

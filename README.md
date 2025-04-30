@@ -174,7 +174,67 @@ While this template is intentionally minimal and to be used as a learning resour
 | BASE_URL                     | Base application URL                                                             |
 | AUTH_SECRET                  | Secret used to sign cookies and tokens                                           |
 | FEATURE_X_ENABLED            | Flag to enable experimental features                                             |
+| REDIS_URL                    | Redis connection string for distributed rate limiting                             |
+| SENTRY_DSN                   | Sentry DSN for error monitoring                                                 |
+
+## Auth Guards
+- Use the `requireAuth` utility in route handlers to protect endpoints and enforce authentication.
+
+## Backend Integration Plan
+- All endpoints scaffolded and typed
+- Drizzle models and migrations stubbed
+- Zod validation schemas present
+- Service layer stubs created
+- Jest unit test stubs present
+- Environment validation and docs updated
+- Ready for frontend integration
 
 ## EditorConfig
 
 A `.editorconfig` file has been added to ensure consistent formatting across editors. Please install EditorConfig plugin in your IDE to apply these settings.
+
+## API Error Response Schema
+All API errors now return a standardized object:
+```json
+{
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable error message."
+  }
+}
+```
+
+## Rate Limiting
+API responses include the following headers:
+- `X-RateLimit-Limit`: Maximum requests per window
+- `X-RateLimit-Remaining`: Requests left in current window
+- `X-RateLimit-Reset`: Seconds until rate limit resets
+
+For distributed deployments, use Redis for rate limiting (see `middleware.ts`).
+
+## Logging & Monitoring
+- Uses `pino` for logging. In production, integrate with a centralized system (e.g., Sentry, Datadog).
+- To enable Sentry, add your DSN to the environment and initialize Sentry in your entrypoint.
+
+## Database Migrations
+- Migrations are tracked in `lib/db/migrations`.
+- To apply migrations:
+  ```sh
+  npm run db:migrate
+  ```
+- Always test migrations in a staging environment before deploying to production.
+
+## Environment Variables
+- All secrets and sensitive configs must be set via environment variables (see `.env.example`).
+- Do not hardcode secrets in the codebase.
+- Use `config/env.ts` for validation and loading.
+
+## Distributed Rate Limiting
+- The default rate limiter is in-memory and suitable for single-instance deployments only.
+- For multi-instance deployments, use Redis for distributed rate limiting.
+- To enable Redis, set the `REDIS_URL` environment variable and update `middleware.ts` to use Redis logic.
+
+### Redis-based Rate Limiting
+- If you set the `REDIS_URL` environment variable, the middleware will use Redis for distributed rate limiting automatically.
+- Make sure your Redis instance is accessible from all app instances.
+- If `REDIS_URL` is not set, the middleware falls back to in-memory rate limiting (single-instance only).

@@ -12,3 +12,11 @@ jest.mock('jose', () => ({
   },
   jwtVerify: () => Promise.resolve({ payload: { user: { id: 'mocked' }, expires: new Date().toISOString() } }),
 }));
+
+jest.mock('next/headers', () => ({
+  cookies: jest.fn(() => ({
+    get: jest.fn(() => undefined),
+    set: jest.fn(),
+    delete: jest.fn(),
+  })),
+}));
