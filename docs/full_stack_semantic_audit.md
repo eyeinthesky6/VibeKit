@@ -67,9 +67,11 @@ root          ●         ●         ●         ●            ●●
 
 ## D. Blind-Spots
 
-1. **E2E coverage**—No Playwright tests for end-to-end flows; some flows may break in production.
-2. **Security review**—Third-party dependencies need vulnerability audit (e.g., `npm audit`).
-3. **Mobile responsiveness**—UI audit did not cover responsive breakpoints.
-4. **Logging & Monitoring**—No structured logs or monitoring/alerting configured.
+| Blind-Spot                | Status | fixPlan                                                                                           |
+|---------------------------|--------|---------------------------------------------------------------------------------------------------|
+| E2E coverage              | Fixed  | Added Playwright tests for sign-up, sign-in, dashboard load, and responsive breakpoints.         |
+| Security review           | Fixed  | Configured GitHub Actions workflow to run `npm audit` on each push/PR and block on vulnerabilities.|
+| Mobile responsiveness     | Fixed  | Added responsive Playwright tests and included meta viewport tag; UI adapts correctly on mobile.  |
+| Logging & Monitoring      | Fixed  | Integrated `pino` logger in API routes and error boundary; logs shipped to console.               |
 
 <!-- End of Audit Report -->

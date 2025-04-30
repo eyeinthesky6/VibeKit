@@ -1,10 +1,12 @@
-import { addPrompt, getPrompts } from '../modules/prompts/client';
+import { addPrompt, getPrompts } from '@/modules/prompts/client';
+
 describe('Prompt Logging', () => {
   it('should add and fetch prompts', async () => {
     const userId = 'test-user';
-    const prompt = await addPrompt(userId, 'hello', 'world');
-    expect(prompt).toBeDefined();
+    const created = await addPrompt(userId, 'hello', 'world');
+    expect(created).toBeDefined();
     const prompts = await getPrompts(userId);
-    expect(prompts.length).toBeGreaterThan(0);
+    expect(Array.isArray(prompts)).toBe(true);
+    expect(prompts.some(p => p.prompt_text === 'hello')).toBe(true);
   });
-});
+}

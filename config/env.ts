@@ -18,6 +18,9 @@ export interface EnvConfig {
 /**
  * Load and validate environment variables
  */
+import dotenv from 'dotenv';
+// Load environment variables before validation
+dotenv.config({ path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env.local' });
 import { z } from 'zod';
 
 const envSchema = z.object({

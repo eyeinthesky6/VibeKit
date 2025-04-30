@@ -18,6 +18,13 @@ export async function middleware(request: NextRequest) {
       'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
       'Access-Control-Allow-Headers': '*',
     };
+    // Cache GET API responses
+    if (request.method === 'GET') {
+      const cacheRes = NextResponse.next();
+      Object.entries(corsHeaders).forEach(([key, value]) => cacheRes.headers.set(key, value));
+      cacheRes.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120');
+      return cacheRes;
+    }
     if (request.method === 'OPTIONS') {
       return new NextResponse(null, { status: 204, headers: corsHeaders });
     }

@@ -1,3 +1,4 @@
+// Ensure test environment
 import dotenv from 'dotenv';
-
-dotenv.config({ path: '.env.local' });
+// Load test environment variables
+dotenv.config({ path: '.env.test' });

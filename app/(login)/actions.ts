@@ -8,7 +8,7 @@ import {
   users,
   teams,
   teamMembers,
-  activityLogs,
+  activity_logs,
   type NewUser,
   type NewTeam,
   type NewTeamMember,
@@ -39,7 +39,7 @@ async function logActivity(
     action: type,
     ipAddress: ipAddress || '',
   };
-  await db.insert(activityLogs).values(newActivity);
+  await db.insert(activity_logs).values(newActivity);
 }
 
 const signInSchema = z.object({
