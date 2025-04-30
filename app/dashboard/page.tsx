@@ -1,5 +1,13 @@
 import { redirect } from 'next/navigation';
 import { getTeamForUser, getUser } from '@/lib/db/queries';
+import dynamic from 'next/dynamic';
+import React from 'react';
+
+// Dynamic import for DashboardContent with loading fallback
+const DashboardContent = dynamic(() => import('@/components/dashboard/DashboardContent'), {
+  loading: () => <div>Loading dashboard...</div>,
+  ssr: false,
+});
 
 export default async function DashboardPage() {
   const user = await getUser();
@@ -10,10 +18,6 @@ export default async function DashboardPage() {
   if (!teamData) {
     throw new Error('Team not found');
   }
-  return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-      <pre className="bg-gray-100 p-4 rounded">{JSON.stringify(teamData, null, 2)}</pre>
-    </div>
-  );
+  // Render dynamically loaded component
+  return <DashboardContent teamData={teamData} />;
 }

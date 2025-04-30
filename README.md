@@ -160,3 +160,23 @@ While this template is intentionally minimal and to be used as a learning resour
 - https://shipfa.st
 - https://makerkit.dev
 - https://zerotoshipped.com
+
+## Environment Variables
+
+| Variable                     | Description                                                                      |
+|------------------------------|----------------------------------------------------------------------------------|
+| NEXT_PUBLIC_SUPABASE_URL     | Supabase project URL for client SDK                                              |
+| NEXT_PUBLIC_SUPABASE_ANON_KEY| Public anon key for Supabase authentication                                       |
+| SUPABASE_SERVICE_ROLE_KEY    | Service role key for Supabase; use only in server environments                   |
+| POSTGRES_URL                 | Postgres connection URL for database migrations and seeds                        |
+| STRIPE_PUBLIC_KEY            | Stripe publishable key                                                           |
+| STRIPE_SECRET_KEY            | Stripe secret key                                                                |
+| STRIPE_WEBHOOK_SECRET        | Stripe webhook signing secret                                                    |
+| NEXTAUTH_URL                 | Base URL for NextAuth or authentication callbacks                                |
+| BASE_URL                     | Base application URL                                                             |
+| AUTH_SECRET                  | Secret used to sign cookies and tokens                                           |
+| FEATURE_X_ENABLED            | Flag to enable experimental features                                             |
+
+## EditorConfig
+
+A `.editorconfig` file has been added to ensure consistent formatting across editors. Please install EditorConfig plugin in your IDE to apply these settings.
