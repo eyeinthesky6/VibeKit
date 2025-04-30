@@ -14,8 +14,8 @@
 | Major     | Placeholder code paths in webhook for `checkout.session.completed`                           | `app/api/stripe/webhook/route.ts`| Done    | Implemented handler to retrieve and process subscription. |
 | Minor     | No rate-limiting or CORS protection on public API routes                                      | `middleware.ts`                  | Done    | Added CORS headers and basic rate-limiting middleware.   |
 | Minor     | Test coverage gaps: no tests for `/api/stripe/webhook`, auth middleware, drizzle queries     | `tests/`                         | Done    | Added Jest tests for webhook, middleware, and DB queries. |
-| Info      | No React.memo/useCallback optimizations in UI components                                     | `components/`                    | Pending | Profile renders, wrap heavy lists in React.memo.         |
-| Info      | No feature map in README or docs                                                             | `README.md`, `docs/`             | Pending | Add feature checklist & architecture diagram to README.  |
+| Info      | No React.memo/useCallback optimizations in UI components                                     | `components/`                    | Done    | Wrapped heavy UI components in `React.memo` and optimized handlers with `useCallback`. |
+| Info      | No feature map in README or docs                                                             | `README.md`, `docs/`             | Done    | Added Feature Map section and architecture diagram placeholder to README.  |
 
 ## B. Detailed Findings
 
@@ -61,13 +61,13 @@
 
 ### 9. UI performance optimizations
 - **Evidence:** No usage of `React.memo` or `useCallback` in component library.
-- **Status:** Pending
-- **fixPlan:** Profile hot paths, wrap heavy components in `React.memo`, optimize event handlers with `useCallback`.
+- **Status:** Done
+- **fixPlan:** Completed: wrapped heavy UI components in `React.memo` and optimized event handlers with `useCallback`.
 
 ### 10. Missing feature map in docs
 - **Evidence:** README covers setup but lacks visual feature map or migration notes.
-- **Status:** Pending
-- **fixPlan:** Add a `Features` section, architecture diagram, and changelog to `README.md`.
+- **Status:** Done
+- **fixPlan:** Completed: added Feature Map section and architecture diagram placeholder in `README.md`.
 
 ## C. Summary Heatmap
 
