@@ -2,10 +2,44 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { signToken, verifyToken } from '@/lib/auth/session';
 
+// Simple in-memory rate limiter
+const RATE_LIMIT_WINDOW = 60 * 1000;
+const MAX_REQUESTS = 60;
+const rateLimitMap = new Map<string, { count: number; timestamp: number }>();
+
 const protectedRoutes = '/dashboard';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  // CORS and rate limiting for API routes
+  if (pathname.startsWith('/api/')) {
+    const corsHeaders = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+      'Access-Control-Allow-Headers': '*',
+    };
+    if (request.method === 'OPTIONS') {
+      return new NextResponse(null, { status: 204, headers: corsHeaders });
+    }
+    // Rate limiting by IP
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+    const now = Date.now();
+    const entry = rateLimitMap.get(ip) || { count: 0, timestamp: now };
+    if (now - entry.timestamp < RATE_LIMIT_WINDOW) {
+      entry.count += 1;
+    } else {
+      entry.count = 1;
+      entry.timestamp = now;
+    }
+    rateLimitMap.set(ip, entry);
+    if (entry.count > MAX_REQUESTS) {
+      return new NextResponse('Rate limit exceeded', { status: 429, headers: corsHeaders });
+    }
+    const apiRes = NextResponse.next();
+    Object.entries(corsHeaders).forEach(([key, value]) => apiRes.headers.set(key, value));
+    return apiRes;
+  }
+
   const sessionCookie = request.cookies.get('session');
   const isProtectedRoute = pathname.startsWith(protectedRoutes);
 
@@ -44,5 +78,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };
