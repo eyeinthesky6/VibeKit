@@ -21,6 +21,18 @@ This is a starter template for building a SaaS application using **Next.js** wit
 - Local middleware to protect Server Actions or validate Zod schemas
 - Activity logging system for any user events
 
+## Feature Map
+
+- **Authentication**: Passwordless magic link via Supabase, JWT sessions stored in cookies, global middleware for route protection.
+- **Billing**: Stripe integration with Checkout, Customer Portal, webhook handling for `checkout.session.completed` and subscription updates.
+- **Dashboard**: Role-based UI (basic, premium, admin), usage analytics endpoint (`/api/usage`) with Drizzle queries, activity logging.
+- **Middleware**: Global Next.js middleware for auth, CORS preflight handling, in-memory rate limiting.
+- **Database**: PostgreSQL with Drizzle ORM and schema definitions in `lib/db/schema.ts`.
+- **Testing**: Jest unit tests covering webhook handler, middleware, and database queries.
+- **Performance**: UI optimizations using `React.memo` and `useCallback` for heavy components.
+
+![Architecture Diagram](./docs/architecture.png)
+
 ## Tech Stack
 
 - **Framework**: [Next.js](https://nextjs.org/)
