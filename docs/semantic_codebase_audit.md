@@ -13,7 +13,7 @@
 | Major     | Unused SMTP env vars and UI imports (no email flows implemented)                             | `config/env.ts`, `lib/auth/index.tsx` | Done    | Pruned SMTP keys and validated no email logic needed. |
 | Major     | Placeholder code paths in webhook for `checkout.session.completed`                           | `app/api/stripe/webhook/route.ts`| Done    | Implemented handler to retrieve and process subscription. |
 | Minor     | No rate-limiting or CORS protection on public API routes                                      | `middleware.ts`                  | Done    | Added CORS headers and basic rate-limiting middleware.   |
-| Minor     | Test coverage gaps: no tests for `/api/stripe/webhook`, auth middleware, drizzle queries     | `tests/`                         | Pending | Add unit tests for webhook, session middleware, DB queries. |
+| Minor     | Test coverage gaps: no tests for `/api/stripe/webhook`, auth middleware, drizzle queries     | `tests/`                         | Done    | Added Jest tests for webhook, middleware, and DB queries. |
 | Info      | No React.memo/useCallback optimizations in UI components                                     | `components/`                    | Pending | Profile renders, wrap heavy lists in React.memo.         |
 | Info      | No feature map in README or docs                                                             | `README.md`, `docs/`             | Pending | Add feature checklist & architecture diagram to README.  |
 
@@ -56,8 +56,8 @@
 
 ### 8. Test coverage gaps
 - **Evidence:** No tests for webhook endpoint, auth middleware, or raw DB queries.
-- **Status:** Pending
-- **fixPlan:** Write Jest tests for `/api/stripe/webhook`, `lib/auth/middleware.ts`, and Drizzle queries with an in-memory DB.
+- **Status:** Done
+- **fixPlan:** Completed: wrote Jest specs covering webhook handler, middleware, and query functions.
 
 ### 9. UI performance optimizations
 - **Evidence:** No usage of `React.memo` or `useCallback` in component library.
