@@ -8,7 +8,7 @@
 |-----------|---------------------------------------------------------------------------------------------|----------------------------------|---------|----------------------------------------------------------|
 | Critical  | Missing RLS or fine-grained access on database tables                                       | `lib/db/schema.ts`               | Done    | Add Postgres RLS policies per tenant/user in schema.     |
 | Major     | Hard-coded secrets in example env (e.g. Supabase ANON key in `.env.example`)                 | `.env.example`                   | Done    | Move examples to placeholders, remove real keys.         |
-| Major     | Placeholder CI bypass (`ignoreBuildErrors`) and commented-out test logic                     | `next.config.js`, `tests/*.spec.ts` | Pending | Remove bypass flags (done), replace placeholders with real assertions. |
+| Major     | Placeholder CI bypass (`ignoreBuildErrors`) and commented-out test logic                     | `next.config.js`, `tests/*.spec.ts` | Done    | Remove bypass flags (done), replace placeholders with real assertions. |
 | Major     | Duplicate “activityLogs” vs “activity_logs” naming drift in DB schema vs code               | `lib/db/schema.ts`               | Pending | Standardize table/field names to a single convention.    |
 | Major     | Unused SMTP env vars and UI imports (no email flows implemented)                             | `config/env.ts`, `lib/auth/index.tsx` | Pending | Prune SMTP keys or implement email-password reset flows. |
 | Minor     | Placeholder code paths in webhook for `checkout.session.completed`                           | `app/api/stripe/webhook/route.ts`| Pending | Implement handling for checkout.session.completed.       |
@@ -31,8 +31,8 @@
 
 ### 3. Placeholder CI bypass & test stubs
 - **Evidence:** Next.js build bypass flags and placeholder `expect(true)` in spec files.
-- **Status:** Pending
-- **fixPlan:** Keep strict CI, remove stubs, write real tests invoking the API handlers.
+- **Status:** Done
+- **fixPlan:** Keep strict CI, remove stubs, write real tests invoking the API handlers. Completed for usage, checkout, and prompt tests.
 
 ### 4. Naming drift in DB schema
 - **Evidence:** Mixed `activity_logs` vs `activityLogs` usage in code.
