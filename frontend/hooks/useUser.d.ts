@@ -1,4 +1,4 @@
-import type { User } from '@/shared/types';
+import type { User } from '../../shared/types';
 /**
  * Placeholder hook for retrieving the current user
  */

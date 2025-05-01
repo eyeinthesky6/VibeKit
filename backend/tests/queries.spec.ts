@@ -1,6 +1,15 @@
 jest.mock('@/lib/db/queries', () => ({
   ...jest.requireActual('@/lib/db/queries'),
-  getUser: jest.fn().mockResolvedValue({ id: 1 }),
+  getUser: jest.fn().mockResolvedValue({
+    id: 1,
+    name: 'Test User',
+    email: 'test@example.com',
+    password_hash: 'hash',
+    role: 'user',
+    created_at: new Date(),
+    updated_at: new Date(),
+    deleted_at: null,
+  }),
 }));
 
 import { getActivityLogs } from '@/lib/db/queries';
@@ -11,7 +20,7 @@ jest.mock('@/lib/db/drizzle', () => {
   const chain = () => {
     const fn = jest.fn();
     fn.mockReturnThis = () => fn;
-    fn.mockImplementation = impl => { fn.mockImplementation = impl; return fn; };
+    fn.mockImplementation = impl => { return fn.mockImplementation(impl); };
     fn.mockResolvedValue = val => { fn.mockResolvedValue = val; return fn; };
     return fn;
   };
@@ -38,7 +47,16 @@ describe('getActivityLogs Query', () => {
   });
 
   it('returns logs when user is authenticated', async () => {
-    jest.spyOn(sessionModule, 'getUser').mockResolvedValue({ id: 1 });
+    jest.spyOn(sessionModule, 'getUser').mockResolvedValue({
+      id: 1,
+      name: 'Test User',
+      email: 'test@example.com',
+      password_hash: 'hash',
+      role: 'user',
+      created_at: new Date(),
+      updated_at: new Date(),
+      deleted_at: null,
+    });
     // Mock db.select chain to return mockLogs
     const db = require('@/lib/db/drizzle').db;
     db.select.mockReturnThis();
@@ -53,7 +71,16 @@ describe('getActivityLogs Query', () => {
   });
 
   it('returns error when db throws', async () => {
-    jest.spyOn(sessionModule, 'getUser').mockResolvedValue({ id: 1 });
+    jest.spyOn(sessionModule, 'getUser').mockResolvedValue({
+      id: 1,
+      name: 'Test User',
+      email: 'test@example.com',
+      password_hash: 'hash',
+      role: 'user',
+      created_at: new Date(),
+      updated_at: new Date(),
+      deleted_at: null,
+    });
     const db = require('@/lib/db/drizzle').db;
     db.select.mockImplementation(() => { throw new Error('DB error'); });
     await expect(realGetActivityLogs()).rejects.toThrow('DB error');

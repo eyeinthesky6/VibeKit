@@ -22,7 +22,7 @@ describe('API /api/stripe/checkout', () => {
     const req = new NextRequest(url, { method: 'POST' });
     const res = await POST(req as any);
     expect(res.status).toBe(400);
-    const json = await res.json();
+    const json = await res.json() as any;
     expect(json.error).toEqual({ code: 'MISSING_PLAN_ID', message: 'Missing planId in request body' });
   });
 
@@ -31,7 +31,7 @@ describe('API /api/stripe/checkout', () => {
     const req = new NextRequest(url, { method: 'POST' });
     const res = await POST(req as any);
     expect(res.status).toBe(401);
-    const json = await res.json();
+    const json = await res.json() as any;
     expect(json.error).toEqual({ code: 'UNAUTHORIZED', message: 'Unauthorized' });
   });
 });

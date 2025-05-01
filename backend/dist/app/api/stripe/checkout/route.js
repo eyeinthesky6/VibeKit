@@ -6,7 +6,7 @@ export async function POST(request) {
     if (!session) {
         return NextResponse.json({ error: { code: 'UNAUTHORIZED', message: 'Unauthorized' } }, { status: 401 });
     }
-    const { planId } = await request.json();
+    const { planId } = (await request.json());
     if (!planId) {
         return NextResponse.json({ error: { code: 'MISSING_PLAN_ID', message: 'Missing planId in request body' } }, { status: 400 });
     }

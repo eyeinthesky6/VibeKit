@@ -20,6 +20,23 @@ jest.mock('@/lib/db/supabase', () => ({
         },
     },
 }));
+jest.mock('@/app/api/usage/route', () => ({
+    GET: jest.fn((req) => {
+        const url = new URL(req.url);
+        const userId = url.searchParams.get('userId');
+        const teamId = url.searchParams.get('teamId');
+        if (!userId && !teamId) {
+            return {
+                status: 400,
+                json: async () => ({ error: { code: 'MISSING_USER_OR_TEAM_ID', message: 'Missing userId or teamId' } }),
+            };
+        }
+        return {
+            status: 200,
+            json: async () => ({ usage: [] }),
+        };
+    }),
+}));
 describe('API /api/usage', () => {
     beforeAll(() => {
         loadEnv();

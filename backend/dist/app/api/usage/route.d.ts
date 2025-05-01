@@ -1,4 +1,4 @@
-import type { UsageResponse } from '@/types/api';
+import type { UsageResponse } from '@/shared/types';
 import { NextRequest, NextResponse } from 'next/server';
 export declare function GET(req: NextRequest): Promise<NextResponse<{
     error: {

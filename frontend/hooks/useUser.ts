@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createClient, User as SupabaseUser } from '@supabase/supabase-js';
-import type { User } from '@/shared/types';
+import type { User } from '../../shared/types';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

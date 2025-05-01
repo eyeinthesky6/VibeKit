@@ -22,7 +22,8 @@
     "paths": {
       "@/backend/*": ["backend/*"],
       "@/frontend/*": ["frontend/*"],
-      "@/*": ["backend/*", "frontend/*"]
+      "@/*": ["backend/*", "frontend/*"],
+      "@/shared/*": ["shared/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -51,7 +51,7 @@ describe('Stripe Webhook Handler', () => {
     };
     const res = await POST(req);
     expect(res.status).toBe(400);
-    const json = await res.json();
+    const json = await res.json() as any;
     expect(json.error).toEqual({ code: 'WEBHOOK_SIGNATURE_VERIFICATION_FAILED', message: 'Webhook signature verification failed.' });
   });
 });

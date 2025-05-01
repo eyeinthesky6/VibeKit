@@ -51,7 +51,7 @@ describe('API /api/usage', () => {
     const req = new NextRequest(url);
     const res = await GET(req as any);
     expect(res.status).toBe(200);
-    const json = await res.json();
+    const json = await res.json() as any;
     expect(Array.isArray(json.usage)).toBe(true);
   });
 
@@ -60,7 +60,7 @@ describe('API /api/usage', () => {
     const req = new NextRequest(url);
     const res = await GET(req as any);
     expect(res.status).toBe(400);
-    const json = await res.json();
+    const json = await res.json() as any;
     expect(json.error).toEqual({ code: 'MISSING_USER_OR_TEAM_ID', message: 'Missing userId or teamId' });
   });
 });

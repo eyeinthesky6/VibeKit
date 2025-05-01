@@ -13,6 +13,7 @@ jest.mock('@/lib/payments/stripe', () => {
                 retrieve: jest.fn(),
             },
         },
+        handleSubscriptionChange: jest.fn(),
     };
 });
 describe('Stripe Webhook Handler', () => {
