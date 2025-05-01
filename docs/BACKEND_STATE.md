@@ -1,31 +1,34 @@
 # VibeKit Backend State & Developer Guide
 
 ## Overview
-This backend is a **production-grade, contract-driven, AI agent-friendly boilerplate** for modern SaaS and app development. It is designed for rapid, safe, and scalable extension, and is ready for seamless frontend integration.
+This backend is a **production-grade, contract-driven, AI agent-friendly boilerplate** for modern SaaS and app development. It is designed for rapid, safe, and scalable extension, and is ready for seamless frontend integration. The codebase is now split into `/backend` (API, business logic, database) and `/frontend` (UI, app shell, client logic).
 
 ---
 
-## Folder Structure (Key Directories)
+## Folder Structure (Key Directories, Post-Move)
 
 ```
 VibeKit/
-├── app/api/                # Next.js API routes (all endpoints scaffolded, typed, validated)
-├── components/             # UI components (if any backend-facing components)
-├── config/                 # Environment validation, config loading
-├── lib/
-│   ├── auth/               # Auth/session logic, requireAuth utility
-│   ├── db/
-│   │   ├── schema/         # Drizzle ORM models for all entities
-│   │   └── migrations/     # Migration scripts (stubbed for all entities)
-│   ├── payments/           # Stripe integration
-│   └── utils/              # Shared backend utilities
-├── modules/                # Service layer for each domain (organizations, teams, etc.)
-├── tests/                  # Jest unit tests for all services and handlers (stubs included)
-├── types/app/              # TypeScript interfaces for all request/response payloads
-├── .env.example            # All required/optional environment variables
-├── README.md               # Main project documentation
-├── backend_integration_plan.md # Stepwise backend integration checklist (all steps complete)
-└── BACKEND_STATE.md        # (This file)
+├── backend/
+│   ├── app/api/                # Next.js API routes (all endpoints scaffolded, typed, validated)
+│   ├── config/                 # Environment validation, config loading
+│   ├── lib/
+│   │   ├── auth/               # Auth/session logic, requireAuth utility
+│   │   ├── db/
+│   │   │   ├── schema/         # Drizzle ORM models for all entities
+│   │   │   └── migrations/     # Migration scripts (stubbed for all entities)
+│   │   ├── payments/           # Stripe integration
+│   │   └── utils/              # Shared backend utilities
+│   ├── modules/                # Service layer for each domain (organizations, teams, etc.)
+│   ├── tests/                  # Jest unit tests for all services and handlers (stubs included)
+│   ├── types/app/              # TypeScript interfaces for all request/response payloads
+│   ├── .env.example            # All required/optional environment variables
+│   ├── README.md               # Main project documentation
+│   ├── backend_integration_plan.md # Stepwise backend integration checklist (all steps complete)
+│   └── BACKEND_STATE.md        # (This file)
+├── frontend/                   # UI, app shell, client logic
+│   └── ...
+└── docs/                      # Backend documentation (this folder)
 ```
 
 ---

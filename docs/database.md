@@ -1,13 +1,13 @@
 # Database & Migrations
 
-The VibeKit backend uses Drizzle ORM with PostgreSQL. This guide covers schema location, migrations, and best practices.
+The VibeKit backend uses Drizzle ORM with PostgreSQL. The backend is now located in `/backend`. This guide covers schema location, migrations, and best practices.
 
 ---
 
 ## ORM & Schema
 - **ORM:** Drizzle (see [architecture.md](./architecture.md))
-- **Schema location:** `lib/db/schema/`
-- **Migrations:** `lib/db/migrations/`
+- **Schema location:** `/backend/lib/db/schema/`
+- **Migrations:** `/backend/lib/db/migrations/`
 
 ---
 

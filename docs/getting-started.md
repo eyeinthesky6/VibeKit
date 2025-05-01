@@ -1,6 +1,6 @@
 # Getting Started (Backend)
 
-Welcome to the VibeKit backend! This guide will help you get up and running quickly.
+Welcome to the VibeKit backend! The backend code is now located in `/backend`. This guide will help you get up and running quickly with the backend only.
 
 ---
 
@@ -19,7 +19,7 @@ npm install
 ---
 
 ## 2. Environment Setup
-- Copy `.env.example` to `.env.local` and fill in required values.
+- Copy `/backend/.env.example` to `/backend/.env.local` and fill in required values.
 - See [env-vars.md](./env-vars.md) for details on each variable.
 
 ---
@@ -35,7 +35,7 @@ npm run db:migrate
 
 ## 4. Running the Backend
 ```sh
-npm run dev
+npm run dev:backend
 ```
 - The API will be available at `http://localhost:3000/api/`
 
@@ -44,7 +44,7 @@ npm run dev
 ## 5. Testing
 - Run all backend tests:
 ```sh
-npm test
+npm run test:backend
 ```
 - See [testing.md](./testing.md) for more info.
 

@@ -1,6 +1,6 @@
 # VibeKit Backend Documentation Index
 
-Welcome to the VibeKit backend documentation. This folder contains all the resources, guides, and references needed for backend development, onboarding, and integration.
+Welcome to the VibeKit backend documentation. This folder contains all the resources, guides, and references needed for backend development, onboarding, and integration. For frontend documentation, see the `frontend/` directory and its README.
 
 ---
 

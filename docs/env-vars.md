@@ -1,6 +1,6 @@
 # Environment Variables
 
-All backend configuration is managed via environment variables. This file lists all required and optional variables, their purpose, and where to find more info.
+All backend configuration is managed via environment variables. This file lists all required and optional variables, their purpose, and where to find more info. The backend is now located in `/backend`, and the environment variable template is `/backend/.env.example`.
 
 ---
 
@@ -23,6 +23,6 @@ All backend configuration is managed via environment variables. This file lists 
 
 ---
 
-- See `.env.example` for a template.
-- All variables are validated in [`config/env.ts`](../config/env.ts).
+- See `/backend/.env.example` for a template.
+- All variables are validated in [`/backend/config/env.ts`](../backend/config/env.ts).
 - For more, see [README.md](../README.md) and [BACKEND_OVERVIEW.md](./BACKEND_OVERVIEW.md). 

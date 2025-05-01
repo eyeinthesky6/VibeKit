@@ -1,12 +1,12 @@
 # VibeKit Backend Documentation
 
 ## 1. Overview
-VibeKit's backend is a production-grade, contract-driven, modular boilerplate for SaaS and app development. It is designed for rapid extension, AI agent-led development, and seamless frontend integration.
+VibeKit's backend is a production-grade, contract-driven, modular boilerplate for SaaS and app development. The codebase is now split into `/backend` (API, business logic, database) and `/frontend` (UI, app shell, client logic). This document covers the backend only.
 
 ---
 
 ## 2. Architecture
-- **Framework:** Next.js API routes
+- **Framework:** Next.js API routes (in `/backend/app/api/`)
 - **ORM:** Drizzle (PostgreSQL)
 - **Validation:** Zod (TypeScript)
 - **Service Layer:** Modular, per-domain services
@@ -16,26 +16,26 @@ VibeKit's backend is a production-grade, contract-driven, modular boilerplate fo
 
 ---
 
-## 3. Folder Structure
+## 3. Folder Structure (Post-Move)
 ```
 VibeKit/
-├── app/api/                # API routes (all endpoints scaffolded, typed, validated)
-├── config/                 # Environment validation, config loading
-├── lib/
-│   ├── auth/               # Auth/session logic, requireAuth utility
-│   ├── db/
-│   │   ├── schema/         # Drizzle ORM models
-│   │   └── migrations/     # Migration scripts
-│   ├── payments/           # Stripe integration
-│   └── utils/              # Shared backend utilities
-├── modules/                # Service layer for each domain
-├── tests/                  # Jest unit tests (stubs included)
-├── types/app/              # TypeScript interfaces for all request/response payloads
-├── .env.example            # Environment variables
-├── README.md               # Main project documentation
-├── backend_integration_plan.md # Integration checklist
-├── BACKEND_STATE.md        # State and onboarding
-└── docs/                   # (This folder)
+├── backend/
+│   ├── app/api/                # API routes (all endpoints scaffolded, typed, validated)
+│   ├── config/                 # Environment validation, config loading
+│   ├── lib/
+│   │   ├── auth/               # Auth/session logic, requireAuth utility
+│   │   ├── db/
+│   │   │   ├── schema/         # Drizzle ORM models
+│   │   │   └── migrations/     # Migration scripts
+│   │   ├── payments/           # Stripe integration
+│   │   └── utils/              # Shared backend utilities
+│   ├── modules/                # Service layer for each domain
+│   ├── tests/                  # Jest unit tests (stubs included)
+│   ├── types/app/              # TypeScript interfaces for all request/response payloads
+│   └── ...
+├── frontend/                   # UI, app shell, client logic
+│   └── ...
+└── docs/                       # Backend documentation (this folder)
 ```
 
 ---
@@ -76,7 +76,7 @@ VibeKit/
 ## 8. Database & Migrations
 - **Drizzle ORM** models in `lib/db/schema/`
 - **Migrations** in `lib/db/migrations/`
-- Run migrations with `npm run db:migrate`
+- Run migrations with `npm run db:migrate` (from project root)
 - Test migrations in staging before production
 
 ---
@@ -84,7 +84,7 @@ VibeKit/
 ## 9. Testing
 - **Unit tests:** Jest, in `tests/` (stubs for all services)
 - **E2E tests:** Playwright (optional, recommended post-frontend integration)
-- Run tests with `npm test`
+- Run tests with `npm run test:backend` (from project root)
 
 ---
 

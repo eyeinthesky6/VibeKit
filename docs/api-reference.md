@@ -1,6 +1,6 @@
 # API Reference
 
-This document lists all backend API endpoints, their methods, and a short description. For usage examples and schemas, see [API_USAGE.md](./API_USAGE.md) and `types/app/`.
+This document lists all backend API endpoints, their methods, and a short description. Endpoints are implemented in `/backend/app/api/`. For usage examples and schemas, see [API_USAGE.md](./API_USAGE.md) and `/backend/types/app/`.
 
 ---
 
@@ -38,6 +38,6 @@ This document lists all backend API endpoints, their methods, and a short descri
 
 ---
 
-- For request/response schemas, see `types/app/`.
+- For request/response schemas, see `/backend/types/app/`.
 - For usage, see [API_USAGE.md](./API_USAGE.md).
 - For the full contract, see [frontend backend contract map.md](../frontend%20backend%20contract%20map.md). 
