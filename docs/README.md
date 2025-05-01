@@ -30,7 +30,7 @@ Welcome to the VibeKit backend documentation. This folder contains all the resou
   - **Comprehensive backend guide:** Architecture, folder structure, API conventions, error handling, environment, database, testing, extension, FAQ, and references.
 - [BACKEND_STATE.md](./BACKEND_STATE.md)
   - **Current backend state & onboarding:** Folder structure, readiness, AI agent-led dev readiness, handoff and onboarding checklists.
-- [backend_integration_plan.md](../backend_integration_plan.md)
+- [backend_integration_plan.md](./backend_integration_plan.md)
   - **Integration checklist:** Stepwise plan for backend/frontend contract alignment, with progress tracking.
 - [README.md](../README.md)
   - **Project root guide:** Setup, environment, running locally, production, and high-level feature map.

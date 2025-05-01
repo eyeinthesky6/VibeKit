@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write .",
     "type-check": "tsc --noEmit",
     "test": "jest",
@@ -14,7 +14,16 @@
     "db:setup": "npx tsx lib/db/setup.ts",
     "db:seed": "npx tsx lib/db/seed.ts",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "dev:backend": "tsc -b backend --watch",
+    "dev:frontend": "tsc -b frontend --watch",
+    "build:backend": "tsc -b backend",
+    "build:frontend": "tsc -b frontend",
+    "test:backend": "cd backend && npm test",
+    "test:frontend": "cd frontend && npm test",
+    "start:backend": "cd backend && node dist/app/server.js",
+    "start:frontend": "cd frontend && next dev",
+    "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.3",
@@ -92,7 +101,8 @@
     "storybook": "8.6.12",
     "ts-jest": "^29.3.2",
     "typescript": "^5.8.2",
-    "vitest": "^3.1.2"
+    "vitest": "^3.1.2",
+    "concurrently": "^8.2.2"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -104,5 +114,9 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  }
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
 }

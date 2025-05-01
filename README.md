@@ -238,3 +238,14 @@ For distributed deployments, use Redis for rate limiting (see `middleware.ts`).
 - If you set the `REDIS_URL` environment variable, the middleware will use Redis for distributed rate limiting automatically.
 - Make sure your Redis instance is accessible from all app instances.
 - If `REDIS_URL` is not set, the middleware falls back to in-memory rate limiting (single-instance only).
+
+## Type and Business Logic Structure
+
+- **All business logic lives in the backend.**
+- **All API request/response types (e.g., User, Page, Team, etc.) are defined in `shared/types.ts`.**
+- **Frontend must only import types from `@/shared/types` and never from backend or its internals.**
+- **Backend must also use `@/shared/types` for all API request/response types.**
+- **No business logic or type definitions should live in the frontend.**
+- This ensures the backend is the single source of truth for business logic and types, and the frontend can be swapped out or replaced easily.
+
+When adding a new frontend, import all API types from `@/shared/types`.

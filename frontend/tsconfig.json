@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "module": "esnext",
+    "target": "ESNext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "composite": true,
+    "noEmit": false,
+    "isolatedModules": true,
+    "types": ["jest", "node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["frontend/components/**/*", "frontend/hooks/**/*", "frontend/e2e/**/*", "frontend/stories/**/*", "frontend/.storybook/**/*", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+} 

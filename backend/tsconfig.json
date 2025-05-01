@@ -1,0 +1,26 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./",
+    "module": "esnext",
+    "target": "ES2021",
+    "lib": ["es2021"],
+    "esModuleInterop": true,
+    "allowJs": false,
+    "composite": true,
+    "noEmit": false,
+    "types": ["node", "jest"]
+  },
+  "include": [
+    "app/**/*",
+    "lib/**/*",
+    "modules/**/*",
+    "config/**/*",
+    "types/**/*",
+    "tests/**/*",
+    "scripts/**/*",
+    "*.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
+} 
