@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '.env.test' });
+require('dotenv').config({ path: require('path').resolve(__dirname, 'env.test') });
 
 // Ensure test environment
 // Test environment is loaded in next.config.js

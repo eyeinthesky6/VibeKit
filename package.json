@@ -17,7 +17,7 @@
     "dev:frontend": "tsc -b frontend --watch",
     "build:backend": "tsc -b backend",
     "build:frontend": "tsc -b frontend",
-    "test:backend": "cd backend && npm test",
+    "test:backend": "jest --config backend/jest.config.js",
     "test:frontend": "cd frontend && npm test",
     "start:backend": "cd backend && node dist/app/server.js",
     "start:frontend": "cd frontend && next dev",
@@ -65,6 +65,8 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-import-attributes": "^7.26.0",
+    "@babel/preset-env": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
     "@playwright/test": "^1.52.0",
     "@sentry/node": "^9.15.0",
     "@types/jest": "^29.5.14",

@@ -1,1 +1,1 @@
-export default function PromptsPage(): Promise<import("react").JSX.Element>;
+export default function PromptsPage(): import("react").JSX.Element;

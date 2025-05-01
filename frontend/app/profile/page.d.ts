@@ -1,1 +1,1 @@
-export default function ProfilePage(): Promise<import("react").JSX.Element>;
+export default function ProfilePage(): import("react").JSX.Element;

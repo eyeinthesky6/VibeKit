@@ -1,1 +1,1 @@
-export default function BillingPage(): Promise<import("react").JSX.Element>;
+export default function BillingPage(): import("react").JSX.Element;

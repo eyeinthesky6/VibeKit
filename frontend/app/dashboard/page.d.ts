@@ -1,1 +1,1 @@
-export default function DashboardPage(): Promise<import("react").JSX.Element>;
+export default function DashboardPage(): import("react").JSX.Element;

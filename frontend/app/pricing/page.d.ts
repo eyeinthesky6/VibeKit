@@ -1,1 +1,1 @@
-export default function PricingPage(): Promise<import("react").JSX.Element>;
+export default function PricingPage(): import("react").JSX.Element;

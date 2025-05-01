@@ -1,7 +1,13 @@
 "use client";
 
 import React from 'react';
-import { logger } from '@/lib/logger';
+
+// Simple client-side logger
+const logger = {
+  error: (context: { err: Error }, message: string) => {
+    console.error(`${message}:`, context.err);
+  }
+};
 
 interface ErrorProps {
   error: Error;

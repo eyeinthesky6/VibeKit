@@ -1,6 +1,11 @@
 "use client";
 import React from 'react';
-import { logger } from '@/lib/logger';
+// Simple client-side logger
+const logger = {
+    error: (context, message) => {
+        console.error(`${message}:`, context.err);
+    }
+};
 export default function RootError({ error, reset }) {
     React.useEffect(() => {
         logger.error({ err: error }, 'Unhandled error in RootError');

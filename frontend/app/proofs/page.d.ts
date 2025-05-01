@@ -1,1 +1,1 @@
-export default function ProofsPage(): Promise<import("react").JSX.Element>;
+export default function ProofsPage(): import("react").JSX.Element;

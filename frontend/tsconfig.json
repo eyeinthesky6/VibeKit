@@ -15,6 +15,13 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["frontend/components/**/*", "frontend/hooks/**/*", "frontend/e2e/**/*", "frontend/stories/**/*", "frontend/.storybook/**/*", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "**/*.ts", 
+    "**/*.tsx",
+    "../shared/types.ts"
+  ],
+  "references": [
+    { "path": "../shared" }
+  ],
   "exclude": ["node_modules", "dist"]
 } 

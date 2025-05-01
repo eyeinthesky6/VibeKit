@@ -1,5 +1,5 @@
 module.exports = {
-  rootDir: '.',
+  rootDir: __dirname,
   preset: 'ts-jest/presets/default-esm',
   testMatch: ['<rootDir>/tests/**/*.spec.ts'],
   testPathIgnorePatterns: ['<rootDir>/../frontend/e2e/'],

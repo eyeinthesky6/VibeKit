@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 interface Subscription {
   id: string;
@@ -10,15 +10,11 @@ interface Subscription {
   amount: number | null;
 }
 
-export default function SubscriptionStatus() {
-  const [subscription, setSubscription] = useState<Subscription | null>(null);
+interface SubscriptionStatusProps {
+  subscription: Subscription;
+}
 
-  useEffect(() => {
-    fetch('/api/billing/subscription')
-      .then((res) => res.json())
-      .then((data) => setSubscription(data.subscription));
-  }, []);
-
+export default function SubscriptionStatus({ subscription }: SubscriptionStatusProps) {
   if (!subscription) {
     return <div className="p-4 border rounded-md">No active subscription</div>;
   }

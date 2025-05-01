@@ -1,18 +1,27 @@
 'use client';
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Home, User, CreditCard, LogOut } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { useUser } from '../../hooks/useUser';
 export default function Layout({ children }) {
-    const [user, setUser] = useState(null);
+    const user = useUser();
     const pathname = usePathname();
-    useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            const userEmail = session?.user?.email ?? '';
-            setUser({ email: userEmail });
-        });
-    }, []);
+    const router = useRouter();
+    const handleSignOut = async () => {
+        try {
+            await fetch('/api/auth/sign-out', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            // Redirect to home page after sign out
+            router.push('/');
+        }
+        catch (error) {
+            console.error('Sign out error:', error);
+        }
+    };
     return (<div className="flex min-h-screen">
       {/* Sidebar */}
       <aside className="w-64 bg-gray-100 p-4">
@@ -48,7 +57,7 @@ export default function Layout({ children }) {
         <header className="flex justify-end items-center bg-white p-4 border-b">
           {user && (<div className="flex items-center space-x-4">
               <span>{user.email ?? ''}</span>
-              <button className="text-sm text-gray-600 hover:text-gray-900" onClick={() => supabase.auth.signOut()}>
+              <button className="text-sm text-gray-600 hover:text-gray-900" onClick={handleSignOut}>
                 <LogOut />
               </button>
             </div>)}
