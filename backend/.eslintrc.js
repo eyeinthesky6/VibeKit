@@ -15,7 +15,13 @@ module.exports = {
     react: { version: 'detect' },
   },
   plugins: ['prettier'],
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:react/recommended', 'plugin:react-hooks/recommended', 'prettier', 'plugin:storybook/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'prettier',
+  ],
   rules: {
     'react/react-in-jsx-scope': 'off',
   },

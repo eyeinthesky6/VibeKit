@@ -7,7 +7,7 @@
 .yarn/install-state.gz
 
 # testing
-/coverage
+# (removed: /coverage, as test infra is purged)
 
 # next.js
 /.next/
@@ -27,7 +27,6 @@ yarn-error.log*
 
 # local env files
 .env
-# Local environment variables
 .env.local
 .env.test
 
@@ -43,4 +42,3 @@ next-env.d.ts
 postgres_data/
 .env*.local
 
-*storybook.log
