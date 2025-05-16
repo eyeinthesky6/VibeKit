@@ -1,2 +1,0 @@
-export {};
-// TODO: implement someAuthFunction
